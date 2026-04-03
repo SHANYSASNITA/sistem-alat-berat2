@@ -1,0 +1,10 @@
+<link href="{{ 'https://fonts.googleapis.com/css?family=Work+Sans:400,500,700&display=swap' }}" rel="stylesheet" />
+<link href="{{ asset('assets/profile/fonts/icomoon/style.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/bootstrap-datepicker.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/jquery.fancybox.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/owl.theme.default.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/fonts/flaticon/font/flaticon.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/aos.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/profile/css/style.css') }}" rel="stylesheet" type="text/css">

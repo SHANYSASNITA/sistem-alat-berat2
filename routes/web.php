@@ -68,15 +68,14 @@ Route::prefix('penyewa')->group(function () {
 |
 */
 Route::get('/', function () {
-    // 1. Ambil data (sesuaikan dengan Model yang Anda miliki)
+    // 1. Ambil data
     $tools = \App\Models\AlatBerat::where('status', 'active')->get(); 
-    $abouts = []; // Ganti dengan \App\Models\About::all() jika tabel sudah ada
-    $services = []; // Ganti dengan \App\Models\Service::all() jika tabel sudah ada
+    $abouts = []; // Ganti dengan pemanggilan database jika sudah siap
+    $services = []; // Ganti dengan pemanggilan database jika sudah siap
 
-    // 2. Arahkan ke 1 file index tersebut
-    return view('web_profile.index', compact('tools', 'abouts', 'services'));
+    // 2. Arahkan tepat ke folder web_profile -> home -> file home.blade.php
+    return view('web_profile.home.home', compact('tools', 'abouts', 'services'));
 })->name('landing');
-
 /*
 |--------------------------------------------------------------------------
 | AUTHENTICATION ADMIN
