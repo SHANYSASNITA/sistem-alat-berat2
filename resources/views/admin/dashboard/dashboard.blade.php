@@ -11,17 +11,21 @@
 <div class="row">
     <div class="col-md-3 grid-margin stretch-card">
         <div class="card border-0 shadow-sm border-start border-primary border-4 hover-lift">
-<div class="card-body">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <p class="text-muted mb-1 fw-medium small text-uppercase">Total Alat Berat</p>
-            <h3 class="mb-0 fw-black">{{ $totalAlat }}</h3> 
-        </div>
-        <div class="bg-primary-soft p-2 rounded">
-            <i data-lucide="truck" class="text-primary"></i>
-        </div>
-    </div>
-</div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1 fw-medium small text-uppercase">Total Alat Berat</p>
+                        <h3 class="mb-0 fw-black">{{ $totalAlat }}</h3> 
+                    </div>
+                    <div class="bg-primary-soft p-2 rounded">
+                        <i data-lucide="truck" class="text-primary"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <span class="text-success small fw-bold">100%</span>
+                    <span class="text-muted small ms-1">Unit Terdaftar</span>
+                </div>
+            </div>
         </div>
     </div>
 

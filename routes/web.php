@@ -17,7 +17,7 @@ use App\Http\Controllers\TransaksiSewaController;
 use App\Http\Controllers\TimesheetController;
 use App\Http\Controllers\DpPembayaranController;
 use App\Http\Controllers\HmLogController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 
 // Controller autentikasi
 use App\Http\Controllers\Auth\LoginAdmin;
@@ -98,8 +98,7 @@ Route::post('/logout', [LoginAdmin::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     
     // Dashboard admin
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     // Manajemen master data
     Route::resource('alat', AlatBeratController::class);
     Route::resource('operator', OperatorController::class);
