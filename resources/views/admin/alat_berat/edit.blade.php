@@ -66,6 +66,22 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Foto Alat Berat</label>
+                                @if($data->foto)
+                                    <div class="mb-2">
+                                        <img src="{{ asset('storage/' . $data->foto) }}" class="rounded border" style="height: 100px;">
+                                        <p class="text-muted small">Foto saat ini</p>
+                                    </div>
+                                @endif
+                                <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" accept="image/*">
+                                <small class="text-muted">Kosongkan jika tidak ingin mengganti foto.</small>
+                                @error('foto')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Status <span class="text-danger">*</span></label>
                                 <select name="status" class="form-select @error('status') is-invalid @enderror" required>

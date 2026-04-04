@@ -66,6 +66,15 @@
                                 @enderror
                             </div>
 
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Upload Foto Alat Berat <span class="text-danger">*</span></label>
+                                <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" required accept="image/*">
+                                <small class="text-muted">Format: JPG, PNG, JPEG. Maks: 2MB</small>
+                                @error('foto')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Status <span class="text-danger">*</span></label>
                                 <select name="status" class="form-select @error('status') is-invalid @enderror" required>

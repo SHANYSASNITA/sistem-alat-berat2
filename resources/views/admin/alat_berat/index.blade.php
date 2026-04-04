@@ -33,6 +33,7 @@
                                 <th>Jenis</th>
                                 <th>Merk</th>
                                 <th>Tahun</th>
+                                <th>foto</th>
                                 <th>Status</th>
                                 <th width="150px" class="text-center">Aksi</th>
                             </tr>
@@ -46,6 +47,19 @@
                                     <td>{{ $row->jenis }}</td>
                                     <td>{{ $row->merk }}</td>
                                     <td>{{ $row->tahun }}</td>
+                                    
+                                    <td class="text-center">
+                                        @if($row->foto)
+                                            <a href="{{ asset('storage/' . $row->foto) }}" target="_blank">
+                                                <img src="{{ asset('storage/' . $row->foto) }}" 
+                                                    alt="Foto {{ $row->nama_alat }}" 
+                                                    class="rounded border shadow-sm" 
+                                                    style="width: 70px; height: 50px; object-fit: cover;">
+                                            </a>
+                                        @else
+                                            <span class="text-muted small">No Photo</span>
+                                        @endif
+                                    </td>
                                     
                                     <td>
                                         @if ($row->status == 'active')
