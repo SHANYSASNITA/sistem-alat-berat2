@@ -67,6 +67,18 @@
                                 @enderror
                             </div>
 
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                                    <option value="active" {{ old('status', $data->status) == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="maintenance" {{ old('status', $data->status) == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                                    <option value="broken" {{ old('status', $data->status) == 'broken' ? 'selected' : '' }}>Broken</option>
+                                </select>
+                                @error('status')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Foto Alat Berat</label>
                                 @if($data->foto)
@@ -82,17 +94,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Status <span class="text-danger">*</span></label>
-                                <select name="status" class="form-select @error('status') is-invalid @enderror" required>
-                                    <option value="active" {{ old('status', $data->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="maintenance" {{ old('status', $data->status) == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
-                                    <option value="broken" {{ old('status', $data->status) == 'broken' ? 'selected' : '' }}>Broken</option>
-                                </select>
-                                @error('status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            
                         </div>
 
                         <button type="submit" class="btn btn-primary me-2 mt-3 text-white">

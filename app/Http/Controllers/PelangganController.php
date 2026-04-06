@@ -36,9 +36,6 @@ class PelangganController extends Controller
             'kontak'         => 'nullable|string|max:50',
             'alamat'         => 'nullable|string',
             'tanggal_lahir'  => 'required|date',
-            'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
-            'agama'          => 'nullable|string',
-            'tempat_tinggal' => 'required|string',
             'ktp_pelanggan'  => 'required|image|mimes:jpeg,png,jpg|max:2048', 
         ]);
 

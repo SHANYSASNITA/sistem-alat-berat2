@@ -65,38 +65,46 @@
                     </li>
 
                     <li class="nav-item nav-category">Web Profile</li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#webProfileCollapse" role="button" 
-                           aria-expanded="{{ request()->is('admin/web-profile*') ? 'true' : 'false' }}" aria-controls="webProfileCollapse">
-                            <i class="link-icon" data-lucide="globe"></i>
-                            <span class="link-title">Manajemen Landing</span>
-                            <i class="link-arrow" data-lucide="chevron-down"></i>
-                        </a>
-                        <div class="collapse {{ request()->is('admin/web-profile*') ? 'show' : '' }}" id="webProfileCollapse" data-bs-parent="#sidebarNav">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i data-lucide="image" style="width: 14px; height: 14px; margin-right: 8px;"></i> Hero Section
-                                    </a>
-                                </li>  
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i data-lucide="info" style="width: 14px; height: 14px; margin-right: 8px;"></i> About Us
-                                    </a>                
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i data-lucide="briefcase" style="width: 14px; height: 14px; margin-right: 8px;"></i> Services
-                                    </a>
-                                </li>  
-                                <li class="nav-item">
-                                    <a href="{{ route('alat.index') }}" class="nav-link {{ request()->routeIs('alat.*') ? 'active' : '' }}">
-                                        <i data-lucide="truck" style="width: 14px; height: 14px; margin-right: 8px;"></i> Katalog Tools
-                                    </a>
-                                </li> 
-                            </ul>
-                        </div>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#webProfileCollapse" role="button" 
+                            aria-expanded="{{ request()->is('admin/web-profile*') ? 'true' : 'false' }}" aria-controls="webProfileCollapse">
+                                <i class="link-icon" data-lucide="globe"></i>
+                                <span class="link-title">Manajemen Landing</span>
+                                <i class="link-arrow" data-lucide="chevron-down"></i>
+                            </a>
+                            <div class="collapse {{ request()->is('admin/web-profile*') ? 'show' : '' }}" id="webProfileCollapse" data-bs-parent="#sidebarNav">
+                                <ul class="nav sub-menu">
+                                    {{-- 1. Hero Section --}}
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.hero') }}" class="nav-link {{ request()->routeIs('admin.hero') ? 'active' : '' }}">
+                                            <i data-lucide="image" style="width: 14px; height: 14px; margin-right: 8px;"></i> Hero Section
+                                        </a>
+                                    </li>  
+
+                                    {{-- 2. About Us --}}
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.about') }}" class="nav-link {{ request()->routeIs('admin.about') ? 'active' : '' }}">
+                                            <i data-lucide="info" style="width: 14px; height: 14px; margin-right: 8px;"></i> About Us
+                                        </a>                
+                                    </li>
+
+                                    {{-- 3. Services --}}
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.services') }}" class="nav-link {{ request()->routeIs('admin.services') ? 'active' : '' }}">
+                                            <i data-lucide="briefcase" style="width: 14px; height: 14px; margin-right: 8px;"></i> Services
+                                        </a>
+                                    </li>  
+
+                                    {{-- 4. Katalog Tools --}}
+                                    <li class="nav-item">
+                                        <a href="{{ route('pricing.index') }}" class="nav-link {{ request()->routeIs('alat.*') ? 'active' : '' }}">
+                                            <i data-lucide="truck" style="width: 14px; height: 14px; margin-right: 8px;"></i> Katalog Tools
+                                        </a>
+                                    </li> 
+                                </ul>
+                            </div>
+                        </li>
+
                     <li class="nav-item nav-category">Operasional</li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#transaksi" role="button" 
