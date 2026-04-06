@@ -76,26 +76,14 @@
                                 <ul class="nav sub-menu">
                                     {{-- 1. Hero Section --}}
                                     <li class="nav-item">
-                                        <a href="{{ route('admin.hero') }}" class="nav-link {{ request()->routeIs('admin.hero') ? 'active' : '' }}">
-                                            <i data-lucide="image" style="width: 14px; height: 14px; margin-right: 8px;"></i> Hero Section
+                                        <a href="{{ route('admin.web-profile.index') }}" 
+                                        class="nav-link {{ request()->routeIs('admin.web-profile.*') ? 'active' : '' }}">
+                                            <i data-lucide="image" style="width: 14px; height: 14px; margin-right: 8px;"></i> 
+                                            Landing Page
                                         </a>
-                                    </li>  
-
-                                    {{-- 2. About Us --}}
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.about') }}" class="nav-link {{ request()->routeIs('admin.about') ? 'active' : '' }}">
-                                            <i data-lucide="info" style="width: 14px; height: 14px; margin-right: 8px;"></i> About Us
-                                        </a>                
                                     </li>
 
-                                    {{-- 3. Services --}}
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.services') }}" class="nav-link {{ request()->routeIs('admin.services') ? 'active' : '' }}">
-                                            <i data-lucide="briefcase" style="width: 14px; height: 14px; margin-right: 8px;"></i> Services
-                                        </a>
-                                    </li>  
-
-                                    {{-- 4. Katalog Tools --}}
+                                    {{-- 2. Katalog Tools --}}
                                     <li class="nav-item">
                                         <a href="{{ route('pricing.index') }}" class="nav-link {{ request()->routeIs('alat.*') ? 'active' : '' }}">
                                             <i data-lucide="truck" style="width: 14px; height: 14px; margin-right: 8px;"></i> Katalog Tools

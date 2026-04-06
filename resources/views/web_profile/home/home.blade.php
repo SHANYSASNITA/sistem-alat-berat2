@@ -4,8 +4,16 @@
 
 @section('home')
     <div class="ftco-blocks-cover-1" id="home">
-        {{-- Background Hero juga bisa dibuat dinamis nanti, sementara pakai hero_1.jpg --}}
-        <div class="ftco-cover-1 overlay" style="background-image: url('{{ asset('assets/profile/images/hero_1.jpg') }}')">
+        
+        {{-- KITA BUAT VARIABEL PHP AGAR URL-NYA BERSIH DAN TIDAK BENTROK KUTIP --}}
+        @php
+            $heroBg = ($profile && $profile->hero_image) 
+                      ? asset('storage/' . $profile->hero_image) 
+                      : asset('assets/profile/images/hero_1.jpg');
+        @endphp
+
+        {{-- Panggil variabel $heroBg di dalam url() --}}
+        <div class="ftco-cover-1 overlay" style="background-image: url('{{ $heroBg }}'); background-size: cover; background-position: center;">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">

@@ -90,10 +90,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('pricing', PricingAlatController::class);
 
     // Manajemen web profile 
+
     Route::prefix('web-profile')->group(function () {
-        Route::get('/hero', [WebProfileController::class, 'editHero'])->name('admin.hero');
-        Route::get('/about', [WebProfileController::class, 'editAbout'])->name('admin.about');
-        Route::get('/services', [WebProfileController::class, 'editServices'])->name('admin.services');
+        Route::get('/', [WebProfileController::class, 'index'])->name('admin.web-profile.index');
         Route::post('/update', [WebProfileController::class, 'update'])->name('admin.web-profile.update');
     });
 

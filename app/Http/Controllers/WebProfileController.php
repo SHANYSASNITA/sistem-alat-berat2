@@ -5,71 +5,54 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
 
 class WebProfileController extends Controller
 {
-    /**
-     * Helper untuk mengambil data profil tunggal
-     */
-    private function getProfile()
+    // Menampilkan semua form dalam satu halaman
+    public function index()
     {
-        return DB::table('web_profiles')->first();
+        $profile = DB::table('web_profiles')->first();
+        return view('admin.web_profile.index', compact('profile'));
     }
 
-    // 1. Menampilkan Form Hero Section
-    public function editHero()
+ public function update(Request $request)
     {
-        $profile = $this->getProfile();
-        return view('admin.web_profile.hero', compact('profile'));
-    }
-
-    // 2. Menampilkan Form About Us
-    public function editAbout()
-    {
-        $profile = $this->getProfile();
-        return view('admin.web_profile.about', compact('profile'));
-    }
-
-    // 3. Menampilkan Form Services
-    public function editServices()
-    {
-        $profile = $this->getProfile();
-        return view('admin.web_profile.services', compact('profile'));
-    }
-
-    /**
-     * Fungsi tunggal untuk mengupdate semua bagian
-     */
-    public function update(Request $request)
-    {
-        // Ambil semua input kecuali token dan file
+        // 1. Ambil semua input kecuali token dan file
         $data = $request->except(['_token', 'about_image', 'hero_image']);
         $data['updated_at'] = now();
 
-       
-       // Logika Upload Foto Hero (Jika Anda menambah kolom hero_image nanti)
+        // 2. Logika Upload Foto Hero
         if ($request->hasFile('hero_image')) {
             $file = $request->file('hero_image');
-            $nama_file = time() . "_hero_" . $file->getClientOriginalName();
-            $file->storeAs('public/profile', $nama_file);
+            
+            // JURUS ANTI GAGAL 1: Hilangkan spasi pada nama file asli
+            $nama_asli = str_replace(' ', '_', $file->getClientOriginalName());
+            $nama_file = time() . "_hero_" . $nama_asli;
+            
+            // JURUS ANTI GAGAL 2: Gunakan parameter ke-3 ('public') untuk memaksa masuk ke storage/app/public
+            $file->storeAs('profile', $nama_file, 'public');
+            
             $data['hero_image'] = 'profile/' . $nama_file;
         }
-       
-       
-        // Logika Upload Foto About
+
+        // 3. Logika Upload Foto About
         if ($request->hasFile('about_image')) {
             $file = $request->file('about_image');
-            $nama_file = time() . "_about_" . $file->getClientOriginalName();
-            $file->storeAs('public/profile', $nama_file);
+            
+            // Bersihkan spasi juga
+            $nama_asli = str_replace(' ', '_', $file->getClientOriginalName());
+            $nama_file = time() . "_about_" . $nama_asli;
+            
+            // Paksa masuk ke disk public
+            $file->storeAs('profile', $nama_file, 'public');
+            
             $data['about_image'] = 'profile/' . $nama_file;
         }
-        
 
-        // Simpan atau Update data dengan ID 1
+        // 4. Eksekusi ke Database
         DB::table('web_profiles')->updateOrInsert(['id' => 1], $data);
 
-        
-        return redirect()->back()->with('success', 'Konten berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Konten Landing Page berhasil diperbarui!');
     }
 }
