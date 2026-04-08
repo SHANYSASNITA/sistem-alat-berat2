@@ -90,17 +90,26 @@ class TimesheetController extends Controller
         $request->validate([
             'transaksi_sewa_id' => 'required',
             'tanggal'           => 'required|date',
+            'hm_awal'  => 'nullable|numeric', 
+            'hm_akhir' => 'nullable|numeric',
             'foto'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $timesheet = Timesheet::findOrFail($id);
         $data = $request->all();
 
+        // ==========================================
+        // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
+        // ==========================================
+        $data['hm_awal'] = empty($request->hm_awal) ? 0 : $request->hm_awal;
+        $data['hm_akhir'] = empty($request->hm_akhir) ? 0 : $request->hm_akhir;
+        // ==========================================
+
         // Logika Ganti Foto
         if ($request->hasFile('foto')) {
             // Hapus foto lama jika ada
-            if ($timesheet->foto && Storage::disk('public')->exists($timesheet->foto)) {
-                Storage::disk('public')->delete($timesheet->foto);
+            if ($timesheet->foto && \Illuminate\Support\Facades\Storage::disk('public')->exists($timesheet->foto)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($timesheet->foto);
             }
             $data['foto'] = $request->file('foto')->store('timesheet_photos', 'public');
         }
@@ -120,10 +129,19 @@ class TimesheetController extends Controller
         $request->validate([
             'transaksi_sewa_id' => 'required',
             'tanggal'           => 'required|date',
-            'foto'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto
+            'hm_awal'  => 'nullable|numeric', 
+            'hm_akhir' => 'nullable|numeric',
+            'foto'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->all();
+
+        // ==========================================
+        // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
+        // ==========================================
+        $data['hm_awal'] = empty($request->hm_awal) ? 0 : $request->hm_awal;
+        $data['hm_akhir'] = empty($request->hm_akhir) ? 0 : $request->hm_akhir;
+        // ==========================================
 
         // Logika Upload Foto
         if ($request->hasFile('foto')) {

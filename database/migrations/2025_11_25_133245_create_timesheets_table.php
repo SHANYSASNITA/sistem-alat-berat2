@@ -16,8 +16,8 @@ return new class extends Migration
         $table->uuid('transaksi_sewa_id');
         $table->date('tanggal');
         
-        $table->double('hm_awal')->default(0);
-        $table->double('hm_akhir')->default(0);
+         $table->integer('hm_awal')->nullable()->change();
+        $table->integer('hm_akhir')->nullable()->change();
 
         $table->integer('jam_baket')->default(0);
         $table->integer('jam_breker')->default(0);
@@ -32,6 +32,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('timesheets');
+        Schema::table('timesheets', function (Blueprint $table) {
+            // Jika di-rollback, kembalikan menjadi tidak boleh kosong
+            $table->integer('hm_awal')->nullable(false)->change();
+            $table->integer('hm_akhir')->nullable(false)->change();
+        });
     }
 };

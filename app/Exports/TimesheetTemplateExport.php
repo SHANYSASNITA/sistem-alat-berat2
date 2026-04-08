@@ -53,15 +53,44 @@ class TimesheetTemplateExport
         // =============================
         $sheet->setCellValue('G9',  $t->pelanggan->nama ?? '-');
         $sheet->setCellValue('G10', $t->operator->nama ?? '-');
-        $sheet->setCellValue('G11', $t->tanggal_mulai . ' - ' . $t->tanggal_selesai);
-        $sheet->setCellValue('G12',  $t->jenis_sewa ?? '-');
+        $sheet->setCellValue('G11', $t->lokasi_proyek ?? '-');
+
+        $tglMulai = \Carbon\Carbon::parse($t->tanggal_mulai)->format('d-m-Y');
+        $tglSelesai = \Carbon\Carbon::parse($t->tanggal_selesai)->format('d-m-Y');
+        $sheet->setCellValue('G12', $tglMulai . ' - ' . $tglSelesai);
+        $sheet->setCellValue('G13',  $t->jenis_sewa ?? '-');
         $sheet->setCellValue('D19', 'Operator ' . $t->operator->nama ?? '-');
-        $hmTerbaru = $t->hmLogs?->sortByDesc('created_at')->first();    
-        $sheet->setCellValue('G30', $hmTerbaru->hm_terkahir ?? '-');
-        $sheet->setCellValue('G33', $hmTerbaru->hm_sekarang ?? '-');
-        $sheet->setCellValue('C30', $hmTerbaru->tanggal_terakhir ?? '-');
-        $sheet->setCellValue('C33', $hmTerbaru->tanggal_sekarang ?? '-');
-        $sheet->setCellValue('G16', $t->mobilisasi . ' - ' . $t->demobilisasi ?? '-');
+       // ==========================================
+        // LOGIKA BARU: AMBIL HM DARI TABEL TIMESHEETS
+        // ==========================================
+        // 1. Urutkan timesheet berdasarkan tanggal dari awal ke akhir
+        // 1. Urutkan timesheet berdasarkan tanggal dari awal ke akhir
+        $logTerakhir = $t->timesheets->sortByDesc('tanggal')->first();
+
+        if ($logTerakhir) {
+            // 2. Tarik angka PERSIS seperti yang bos ketik di Admin
+            $hmAwal  = $logTerakhir->hm_awal ?? '-';  // Sesuai gambar bos: 1122
+            $hmAkhir = $logTerakhir->hm_akhir ?? '-'; // Sesuai gambar bos: 456
+            
+            // 3. Samakan tanggalnya dengan tanggal log tersebut
+            $tglLog = \Carbon\Carbon::parse($logTerakhir->tanggal)->format('d-m-Y');
+        } else {
+            $hmAwal = '-'; $hmAkhir = '-';
+            $tglLog = '-';
+        }
+
+        // 4. TEMBAK KE SEL F33 DAN F36
+        // Posisinya saya sesuaikan dengan gambar Excel bos ya
+        
+        // Kotak Atas (HM Terakhir) -> Menampilkan HM Akhir
+        $sheet->setCellValue('F32', $hmAkhir);   
+        $sheet->setCellValue('C32', $tglLog);  
+
+        // Kotak Bawah (HM Sekarang) -> Menampilkan HM Awal
+        $sheet->setCellValue('F35', $hmAwal);  
+        $sheet->setCellValue('C35', $tglLog);
+        
+        $sheet->setCellValue('G17', $t->mobilisasi . ' - ' . $t->demobilisasi ?? '-');
         $sheet->mergeCells("AM16:AN16");
         $sheet->setCellValue('AM16', $t->biaya_modem ?? '0');
         // $sheet->setCellValue('AB29', implode(', ', $jenisPekerjaan));
@@ -174,8 +203,8 @@ class TimesheetTemplateExport
         // =============================
 
         $dpList = $t->dpPembayaran;
-        $dpRow = 15;
-        $templateDpRow = 15;
+        $dpRow = 16;
+        $templateDpRow = 16;
 
         foreach ($dpList as $i => $dp) {
 

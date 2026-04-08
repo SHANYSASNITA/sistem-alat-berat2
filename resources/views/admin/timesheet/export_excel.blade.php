@@ -14,6 +14,10 @@
         <td colspan="10">: {{ $transaksi->operator->nama_operator ?? '-' }}</td>
     </tr>
     <tr>
+        <td colspan="2">Lokasi Proyek</td>
+        <td colspan="10">: {{ $transaksi->lokasi_proyek ?? '-' }}</td>
+    </tr>
+    <tr>
         <td colspan="2">Priode Operasi</td>
         <td colspan="10">: {{ $transaksi->tanggal_mulai ? $transaksi->tanggal_mulai->format('M-y') : '-' }}</td>
     </tr>
