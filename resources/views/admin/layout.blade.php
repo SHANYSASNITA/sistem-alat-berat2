@@ -127,7 +127,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('profile.index') }}" class="nav-link {{ request()->routeIs('timesheet.*') ? 'active' : '' }}">
                             <i class="link-icon" data-lucide="user-cog"></i>
                             <span class="link-title">Profile</span>
                         </a>

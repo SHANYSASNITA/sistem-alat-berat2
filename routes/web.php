@@ -16,8 +16,9 @@ use App\Http\Controllers\DpPembayaranController;
 use App\Http\Controllers\HmLogController;
 use App\Http\Controllers\DashboardController;
 
-// PERBAIKAN: Alamat WebProfileController yang benar (karena filenya ada di folder Controllers)
+// PERBAIKAN: Alamat WebProfileController yang benar
 use App\Http\Controllers\WebProfileController; 
+use App\Http\Controllers\ProfileController; // <-- TAMBAHKAN IMPORT INI
 
 // Controller autentikasi
 use App\Http\Controllers\Auth\LoginAdmin;
@@ -51,6 +52,7 @@ Route::prefix('penyewa')->group(function () {
     })->name('penyewa.login');
 
     Route::post('/login', [LoginPenyewaController::class, 'login'])->name('penyewa.login.submit');
+    
     Route::get('/register', function () {
         return view('penyewa.register.register'); 
     })->name('penyewa.register');
@@ -89,8 +91,15 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('lokasi', LokasiProyekController::class);
     Route::resource('pricing', PricingAlatController::class);
 
-    // Manajemen web profile 
+    // ==========================================
+    // ROUTE PROFIL ADMIN & GANTI PASSWORD
+    // ==========================================
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    // ==========================================
 
+    // Manajemen web profile 
     Route::prefix('web-profile')->group(function () {
         Route::get('/', [WebProfileController::class, 'index'])->name('admin.web-profile.index');
         Route::post('/update', [WebProfileController::class, 'update'])->name('admin.web-profile.update');
