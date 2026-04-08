@@ -33,6 +33,7 @@
                                 <th>Harga Per Hari</th>
                                 <th>Harga Per Jam</th>
                                 <th>Masa Berlaku</th>
+                                <th>Status</th>
                                 <th width="150px" class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -54,6 +55,19 @@
                                             {{ $row->berlaku_selesai ? \Carbon\Carbon::parse($row->berlaku_selesai)->format('d M Y') : 'Seterusnya' }}
                                         </span>
                                     </td>
+
+                                    <td>
+                                        @if ($row->status == 'ready')
+                                            <span class="badge bg-success">Ready</span>
+                                        @elseif ($row->status == 'in_use')
+                                            <span class="badge bg-primary">In Use</span>
+                                        @elseif ($row->status == 'maintenance')
+                                            <span class="badge bg-danger">Maintenance</span>
+                                        @else
+                                            <span class="badge bg-secondary">-</span>
+                                        @endif
+                                    </td>
+
                                     <td class="text-center align-middle">
                                         <a href="{{ route('pricing.edit', $row->id) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                                             <i data-lucide="edit-2" width="16" height="16"></i>

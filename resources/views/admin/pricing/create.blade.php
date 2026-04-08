@@ -75,6 +75,19 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                                <option value="" disabled {{ old('status', $data->status ?? '') == '' ? 'selected' : '' }}>-- Pilih Status --</option>
+                                <option value="ready" {{ old('status', $data->status ?? '') == 'ready' ? 'selected' : '' }}>Ready (Siap Sewa)</option>
+                                <option value="in_use" {{ old('status', $data->status ?? '') == 'in_use' ? 'selected' : '' }}>In Use (Sedang Beroperasi)</option>
+                                <option value="maintenance" {{ old('status', $data->status ?? '') == 'maintenance' ? 'selected' : '' }}>Maintenance (Perbaikan)</option>
+                            </select>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="d-flex justify-content-end mt-4">
                             <a href="{{ route('pricing.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary text-white">

@@ -43,6 +43,7 @@ class PricingAlatController extends Controller
             'harga_per_jam'    => 'nullable|integer',
             'berlaku_mulai'    => 'required|date',
             'berlaku_selesai'  => 'nullable|date|after_or_equal:berlaku_mulai',
+            'status'           => 'required|in:ready,in_use,maintenance',
         ]);
 
         PricingAlat::create($validated);
@@ -77,6 +78,7 @@ class PricingAlatController extends Controller
             'harga_per_jam'    => 'nullable|integer',
             'berlaku_mulai'    => 'required|date',
             'berlaku_selesai'  => 'nullable|date|after_or_equal:berlaku_mulai',
+            'status'           => 'required|in:ready,in_use,maintenance',
         ]);
 
         $pricing->update($validated);

@@ -104,41 +104,76 @@
             <div class="row">
                 @forelse ($tools as $tool)
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="card h-100 border-0 shadow-sm transition-hover" style="border-radius: 15px; overflow: hidden; background: white;">
+                        <div class="card h-100 border-0 shadow-sm transition-hover" style="border-radius: 15px; overflow: hidden; background: white; position: relative;">
+                            
                             {{-- Gambar Alat --}}
                             <img src="{{ asset('storage/' . $tool->foto) }}" class="card-img-top" style="height: 230px; object-fit: cover;">
                             
                             <div class="card-body p-4">
-                                <h4 class="font-weight-bold text-black mb-1">{{ $tool->nama_alat }}</h4>
-                                <p class="text-muted small mb-3">{{ $tool->merk }} | {{ $tool->jenis }}</p>
+                                <h4 class="font-weight-bold text-black mb-1">{{ $tool->merk }}</h4>
+                                <p class="text-muted small mb-3">{{ $tool->kode_unit }} | {{ $tool->jenis }}</p>
                                 
-                                {{-- BAGIAN DINAMIS PRICING --}}
+                                {{-- BAGIAN DINAMIS PRICING & STATUS --}}
                                 <div class="bg-light p-3 rounded mb-4">
-                                    <h6 class="fw-bold small text-uppercase mb-2 text-primary">Daftar Harga Sewa:</h6>
+                                    <h6 class="fw-bold small text-uppercase mb-3 text-primary border-bottom pb-2">Daftar Harga Sewa:</h6>
+                                    
                                     @if($tool->pricing->count() > 0)
                                         @foreach($tool->pricing as $price)
-                                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                                <span class="small text-capitalize">{{ $price->jenis_pekerjaan }}:</span>
-                                                <span class="fw-bold text-dark small">
-                                                    Rp {{ number_format($price->harga_per_jam, 0, ',', '.') }}/Jam
-                                                </span>
+                                            <div class="mb-3 border-bottom pb-2 last-border-0">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span class="small text-capitalize fw-bold text-dark">
+                                                        <i class="text-warning mr-1">✔</i> Layanan {{ $price->jenis_pekerjaan }}
+                                                    </span>
+                                                    
+                                                    {{-- LENCANA STATUS UNTUK SETIAP JENIS PEKERJAAN --}}
+                                                    @if($price->status == 'ready')
+                                                        <span class="badge bg-success" style="font-size: 0.7rem;">Siap Sewa</span>
+                                                    @elseif($price->status == 'in_use')
+                                                        <span class="badge bg-primary" style="font-size: 0.7rem;">Beroperasi</span>
+                                                    @elseif($price->status == 'maintenance')
+                                                        <span class="badge bg-danger" style="font-size: 0.7rem;">Perbaikan</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-between align-items-center mt-2 pl-3">
+                                                    <span class="small text-muted">Tarif:</span>
+                                                    <span class="fw-bold text-dark small">
+                                                        Rp {{ number_format($price->harga_per_jam, 0, ',', '.') }} / Jam
+                                                    </span>
+                                                </div>
                                             </div>
                                         @endforeach
                                     @else
-                                        <p class="text-danger small mb-0 italic">Hubungi admin untuk harga</p>
+                                        <div class="text-center py-2">
+                                            <p class="text-danger small mb-0 font-italic">Hubungi admin untuk detail harga</p>
+                                        </div>
                                     @endif
                                 </div>
                                 
                                 {{-- Tombol WA Otomatis --}}
-                                <a href="https://wa.me/628123456789?text=Halo%20CV%20LISAN,%20saya%20ingin%20tanya%20sewa%20{{ urlencode($tool->nama_alat) }}" 
-                                   class="btn btn-warning btn-block fw-bold py-2 shadow-sm">
-                                   <i data-lucide="message-circle" class="me-2"></i> HUBUNGI KAMI
-                                </a>
+                                {{-- KITA BUAT LOGIKA: JIKA SEMUA PRICING STATUSNYA MAINTENANCE, TOMBOL DISABLE/ABU-ABU --}}
+                                @php
+                                    $isAllMaintenance = $tool->pricing->count() > 0 && $tool->pricing->every(function($p) { return $p->status == 'maintenance'; });
+                                @endphp
+
+                                @if($isAllMaintenance)
+                                    <button class="btn btn-secondary btn-block fw-bold py-2 shadow-sm" disabled style="cursor: not-allowed;">
+                                        <i data-lucide="alert-circle" class="me-2"></i> ALAT SEDANG PERBAIKAN
+                                    </button>
+                                @else
+                                    <a href="https://wa.me/628123456789?text=Halo%20CV%20LISAN,%20saya%20ingin%20tanya%20sewa%20{{ urlencode($tool->nama_alat) }}" 
+                                       class="btn btn-warning btn-block fw-bold py-2 shadow-sm text-dark">
+                                       <i data-lucide="message-circle" class="me-2"></i> HUBUNGI KAMI
+                                    </a>
+                                @endif
+                                
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="col-12 text-center"><p class="text-muted">Belum ada armada tersedia.</p></div>
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted lead">Belum ada armada yang tersedia saat ini.</p>
+                    </div>
                 @endforelse
             </div>
         </div>

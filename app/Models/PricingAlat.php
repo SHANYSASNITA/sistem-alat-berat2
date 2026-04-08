@@ -20,7 +20,8 @@ class PricingAlat extends Model
         'harga_per_hari',
         'harga_per_jam',
         'berlaku_mulai',
-        'berlaku_selesai'
+        'berlaku_selesai',
+        'status'
     ];
 
     protected static function boot()
