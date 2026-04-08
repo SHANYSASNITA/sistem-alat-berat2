@@ -41,24 +41,48 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Jenis Pekerjaan <span class="text-danger">*</span></label>
-                                <select name="jenis_pekerjaan" class="form-select @error('jenis_pekerjaan') is-invalid @enderror" required>
-                                    <option value="baket" {{ old('jenis_pekerjaan', $data->jenis_pekerjaan) == 'baket' ? 'selected' : '' }}>Baket</option>
-                                    <option value="breker" {{ old('jenis_pekerjaan', $data->jenis_pekerjaan) == 'breker' ? 'selected' : '' }}>Breker</option>
+                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                                    <option value="" disabled {{ old('status', $data->status ?? '') == '' ? 'selected' : '' }}>-- Pilih Status --</option>
+                                    <option value="ready" {{ old('status', $data->status ?? '') == 'ready' ? 'selected' : '' }}>Ready (Siap Sewa)</option>
+                                    <option value="in_use" {{ old('status', $data->status ?? '') == 'in_use' ? 'selected' : '' }}>In Use (Sedang Beroperasi)</option>
+                                    <option value="maintenance" {{ old('status', $data->status ?? '') == 'maintenance' ? 'selected' : '' }}>Maintenance (Perbaikan)</option>
                                 </select>
-                                @error('jenis_pekerjaan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('status')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Harga Per Hari (Rp)</label>
-                                <input type="number" name="harga_per_hari" class="form-control @error('harga_per_hari') is-invalid @enderror" value="{{ old('harga_per_hari', $data->harga_per_hari) }}">
-                                @error('harga_per_hari') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Harga Per Jam (Rp)</label>
-                                <input type="number" name="harga_per_jam" class="form-control @error('harga_per_jam') is-invalid @enderror" value="{{ old('harga_per_jam', $data->harga_per_jam) }}">
-                                @error('harga_per_jam') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <div class="col-md-12 mb-3 mt-2">
+                                <label class="form-label fw-bold">Layanan & Tarif (Centang yang tersedia) <span class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border border-light shadow-sm bg-light">
+                                            <div class="card-body p-3">
+                                                <div class="form-check form-switch mb-3">
+                                                    <input class="form-check-input" type="checkbox" name="layanan_baket" id="checkBaket" value="1" {{ (old('layanan_baket') || $data->harga_baket) ? 'checked' : '' }}>
+                                                    <label class="form-check-label fw-bold" for="checkBaket">Layanan Baket</label>
+                                                </div>
+                                                <label class="form-label small text-muted">Tarif Baket (Per Jam)</label>
+                                                <input type="number" name="harga_baket" class="form-control @error('harga_baket') is-invalid @enderror" value="{{ old('harga_baket', $data->harga_baket) }}" placeholder="Contoh: 150000">
+                                                @error('harga_baket') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border border-light shadow-sm bg-light">
+                                            <div class="card-body p-3">
+                                                <div class="form-check form-switch mb-3">
+                                                    <input class="form-check-input" type="checkbox" name="layanan_breker" id="checkBreker" value="1" {{ (old('layanan_breker') || $data->harga_breker) ? 'checked' : '' }}>
+                                                    <label class="form-check-label fw-bold" for="checkBreker">Layanan Breker</label>
+                                                </div>
+                                                <label class="form-label small text-muted">Tarif Breker (Per Jam)</label>
+                                                <input type="number" name="harga_breker" class="form-control @error('harga_breker') is-invalid @enderror" value="{{ old('harga_breker', $data->harga_breker) }}" placeholder="Contoh: 200000">
+                                                @error('harga_breker') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -73,19 +97,6 @@
                                 <small class="text-muted">Kosongkan jika harga ini berlaku seterusnya.</small>
                                 @error('berlaku_selesai') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select name="status" class="form-select @error('status') is-invalid @enderror" required>
-                                <option value="" disabled {{ old('status', $data->status ?? '') == '' ? 'selected' : '' }}>-- Pilih Status --</option>
-                                <option value="ready" {{ old('status', $data->status ?? '') == 'ready' ? 'selected' : '' }}>Ready (Siap Sewa)</option>
-                                <option value="in_use" {{ old('status', $data->status ?? '') == 'in_use' ? 'selected' : '' }}>In Use (Sedang Beroperasi)</option>
-                                <option value="maintenance" {{ old('status', $data->status ?? '') == 'maintenance' ? 'selected' : '' }}>Maintenance (Perbaikan)</option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <div class="d-flex justify-content-end mt-4">

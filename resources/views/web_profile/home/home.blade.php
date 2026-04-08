@@ -118,31 +118,50 @@
                                     <h6 class="fw-bold small text-uppercase mb-3 text-primary border-bottom pb-2">Daftar Harga Sewa:</h6>
                                     
                                     @if($tool->pricing->count() > 0)
-                                        @foreach($tool->pricing as $price)
-                                            <div class="mb-3 border-bottom pb-2 last-border-0">
+                                        @php
+                                            // Ambil 1 baris data pricing terbaru untuk alat ini
+                                            $price = $tool->pricing->first();
+                                        @endphp
+
+                                        {{-- CEK APAKAH PUNYA HARGA BAKET --}}
+                                        @if($price->harga_baket)
+                                            <div class="mb-3 border-bottom pb-2">
                                                 <div class="d-flex justify-content-between align-items-center mb-1">
-                                                    <span class="small text-capitalize fw-bold text-dark">
-                                                        <i class="text-warning mr-1">✔</i> Layanan {{ $price->jenis_pekerjaan }}
-                                                    </span>
-                                                    
-                                                    {{-- LENCANA STATUS UNTUK SETIAP JENIS PEKERJAAN --}}
-                                                    @if($price->status == 'ready')
-                                                        <span class="badge bg-success" style="font-size: 0.7rem;">Siap Sewa</span>
-                                                    @elseif($price->status == 'in_use')
-                                                        <span class="badge bg-primary" style="font-size: 0.7rem;">Beroperasi</span>
-                                                    @elseif($price->status == 'maintenance')
-                                                        <span class="badge bg-danger" style="font-size: 0.7rem;">Perbaikan</span>
+                                                    <span class="small text-capitalize fw-bold text-dark"><i class="text-warning mr-1">✔</i> Layanan Baket</span>
+                                                    @if($price->status == 'ready') <span class="badge bg-success" style="font-size: 0.7rem;">Siap Sewa</span>
+                                                    @elseif($price->status == 'in_use') <span class="badge bg-primary" style="font-size: 0.7rem;">Beroperasi</span>
+                                                    @elseif($price->status == 'maintenance') <span class="badge bg-danger" style="font-size: 0.7rem;">Perbaikan</span>
                                                     @endif
                                                 </div>
-                                                
                                                 <div class="d-flex justify-content-between align-items-center mt-2 pl-3">
                                                     <span class="small text-muted">Tarif:</span>
-                                                    <span class="fw-bold text-dark small">
-                                                        Rp {{ number_format($price->harga_per_jam, 0, ',', '.') }} / Jam
-                                                    </span>
+                                                    <span class="fw-bold text-dark small">Rp {{ number_format($price->harga_baket, 0, ',', '.') }} / Jam</span>
                                                 </div>
                                             </div>
-                                        @endforeach
+                                        @endif
+
+                                        {{-- CEK APAKAH PUNYA HARGA BREKER --}}
+                                        @if($price->harga_breker)
+                                            <div class="mb-2">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span class="small text-capitalize fw-bold text-dark"><i class="text-warning mr-1">✔</i> Layanan Breker</span>
+                                                    @if($price->status == 'ready') <span class="badge bg-success" style="font-size: 0.7rem;">Siap Sewa</span>
+                                                    @elseif($price->status == 'in_use') <span class="badge bg-primary" style="font-size: 0.7rem;">Beroperasi</span>
+                                                    @elseif($price->status == 'maintenance') <span class="badge bg-danger" style="font-size: 0.7rem;">Perbaikan</span>
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2 pl-3">
+                                                    <span class="small text-muted">Tarif:</span>
+                                                    <span class="fw-bold text-dark small">Rp {{ number_format($price->harga_breker, 0, ',', '.') }} / Jam</span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        
+                                        {{-- JIKA DICENTANG TAPI KOSONG DUA-DUANYA --}}
+                                        @if(!$price->harga_baket && !$price->harga_breker)
+                                            <p class="text-danger small mb-0 font-italic text-center py-2">Hubungi admin untuk detail harga</p>
+                                        @endif
+                                        
                                     @else
                                         <div class="text-center py-2">
                                             <p class="text-danger small mb-0 font-italic">Hubungi admin untuk detail harga</p>
@@ -151,7 +170,6 @@
                                 </div>
                                 
                                 {{-- Tombol WA Otomatis --}}
-                                {{-- KITA BUAT LOGIKA: JIKA SEMUA PRICING STATUSNYA MAINTENANCE, TOMBOL DISABLE/ABU-ABU --}}
                                 @php
                                     $isAllMaintenance = $tool->pricing->count() > 0 && $tool->pricing->every(function($p) { return $p->status == 'maintenance'; });
                                 @endphp

@@ -15,10 +15,9 @@ class PricingAlat extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'alat_berat_id',
-        'jenis_pekerjaan',
-        'harga_per_hari',
-        'harga_per_jam',
+       'alat_berat_id',
+        'harga_baket',    
+        'harga_breker',    
         'berlaku_mulai',
         'berlaku_selesai',
         'status'

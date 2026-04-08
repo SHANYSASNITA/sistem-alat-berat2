@@ -21,34 +21,46 @@
                     </a>
                 </div>
                 
-                <p class="text-secondary mb-4">Manajemen daftar harga sewa alat berat berdasarkan jenis pekerjaan (Baket/Breker).</p>
+                <p class="text-secondary mb-4">Manajemen daftar harga sewa alat berat berdasarkan layanan (Baket & Breker).</p>
                 
                 <div class="table-responsive">
-                    <table id="dataTablePricing" class="table table-hover">
-                        <thead>
+                    <table id="dataTablePricing" class="table table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
                                 <th>#</th>
                                 <th>Alat Berat</th>
-                                <th>Jenis Pekerjaan</th>
-                                <th>Harga Per Hari</th>
-                                <th>Harga Per Jam</th>
+                                <th>Tarif Baket / Jam</th>
+                                <th>Tarif Breker / Jam</th>
                                 <th>Masa Berlaku</th>
                                 <th>Status</th>
-                                <th width="150px" class="text-center">Aksi</th>
+                                <th width="120px" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td class="fw-bold">{{ $row->alat->nama_alat ?? '-' }}</td>
+                                    <td class="fw-bold text-dark">{{ $row->alat->nama_alat ?? '-' }}</td>
+                                    
+                                    {{-- Kolom Harga Baket --}}
                                     <td>
-                                        <span class="badge {{ $row->jenis_pekerjaan == 'baket' ? 'bg-warning text-dark' : 'bg-danger' }}">
-                                            {{ ucfirst($row->jenis_pekerjaan) }}
-                                        </span>
+                                        @if($row->harga_baket)
+                                            <span class="text-success fw-bold">Rp {{ number_format($row->harga_baket, 0, ',', '.') }}</span>
+                                        @else
+                                            <span class="text-muted small">-</span>
+                                        @endif
                                     </td>
-                                    <td>Rp {{ number_format($row->harga_per_hari, 0, ',', '.') }}</td>
-                                    <td>{{ $row->harga_per_jam ? 'Rp ' . number_format($row->harga_per_jam, 0, ',', '.') : '-' }}</td>
+                                    
+                                    {{-- Kolom Harga Breker --}}
+                                    <td>
+                                        @if($row->harga_breker)
+                                            <span class="text-warning fw-bold">Rp {{ number_format($row->harga_breker, 0, ',', '.') }}</span>
+                                        @else
+                                            <span class="text-muted small">-</span>
+                                        @endif
+                                    </td>
+                                    
+                                    {{-- Kolom Masa Berlaku --}}
                                     <td>
                                         <span class="text-secondary" style="font-size: 0.85rem;">
                                             {{ \Carbon\Carbon::parse($row->berlaku_mulai)->format('d M Y') }} s/d <br>
@@ -56,6 +68,7 @@
                                         </span>
                                     </td>
 
+                                    {{-- Kolom Status --}}
                                     <td>
                                         @if ($row->status == 'ready')
                                             <span class="badge bg-success">Ready</span>
@@ -68,18 +81,21 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-center align-middle">
-                                        <a href="{{ route('pricing.edit', $row->id) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                            <i data-lucide="edit-2" width="16" height="16"></i>
-                                        </a>
+                                    {{-- Kolom Aksi --}}
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <a href="{{ route('pricing.edit', $row->id) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                                <i data-lucide="edit-2" width="16" height="16"></i>
+                                            </a>
 
-                                        <form action="{{ route('pricing.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pricing ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus">
-                                                <i data-lucide="trash" width="16" height="16"></i>
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('pricing.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pricing ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus">
+                                                    <i data-lucide="trash" width="16" height="16"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -113,7 +129,7 @@
                     "iDisplayLength": 10,
                     "language": {
                         search: "",
-                        searchPlaceholder: "Cari harga..."
+                        searchPlaceholder: "Cari data..."
                     }
                 });
             }
