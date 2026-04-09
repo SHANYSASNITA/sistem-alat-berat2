@@ -58,7 +58,8 @@
 
     <div class="login-card text-center">
         <h3 class="fw-bold mb-1" style="color: var(--accent-color);">C.V. LISAN</h3>
-        <p class="text-white-50 small mb-4 text-uppercase" style="letter-spacing: 2px;">Admin Panel</p>
+        <p class="text-white-50 small mb-4 text-uppercase" style="letter-spacing: 3px;">Admin Panel</p>
+        <p class="text-white-50 small mb-4 text-uppercase" style="letter-spacing: 1px;">Halaman ini hanya untuk halaman login untuk admin</p>
 
         <form action="{{ route('login') }}" method="POST">
             @csrf
