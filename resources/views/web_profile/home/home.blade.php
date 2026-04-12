@@ -24,7 +24,7 @@
                             {{ $profile->hero_description ?? 'C.V. LISAN memberikan solusi penyewaan alat berat terpercaya di NTB.' }}
                         </p>
                         <a href="#tools" class="btn btn-primary rounded-pill px-5 py-3" style="color: black !important; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-                            Lihat Katalog
+                            Cek Ketersediaan Unit
                         </a>
                     </div>
                 </div>
