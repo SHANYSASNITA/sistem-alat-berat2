@@ -18,7 +18,7 @@ use App\Http\Controllers\DashboardController;
 
 // PERBAIKAN: Alamat WebProfileController yang benar
 use App\Http\Controllers\WebProfileController; 
-use App\Http\Controllers\ProfileController; // <-- TAMBAHKAN IMPORT INI
+use App\Http\Controllers\ProfileController; 
 
 // Controller autentikasi
 use App\Http\Controllers\Auth\LoginAdmin;

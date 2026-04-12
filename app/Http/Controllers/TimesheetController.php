@@ -15,11 +15,31 @@ class TimesheetController extends Controller
      */
     public function index()
     {
-        // Menampilkan 1 baris saja per Transaksi (Proyek) untuk halaman utama
-        $data = Timesheet::with('transaksi.pelanggan', 'transaksi.alat')
-            ->orderBy('tanggal', 'desc')
-            ->get()
-            ->unique('transaksi_sewa_id'); // Mengelompokkan agar tidak ganda
+        // 1. Tarik semua data log harian beserta relasinya
+        $allTimesheets = Timesheet::with(['transaksi.pelanggan', 'transaksi.alat', 'transaksi.operator'])->get();
+
+        // 2. Kelompokkan berdasarkan ID Proyek (transaksi_sewa_id)
+        $grouped = $allTimesheets->groupBy('transaksi_sewa_id');
+
+        $data = collect();
+
+        foreach ($grouped as $timesheets) {
+            // 3. KUNCI TANGGAL: Ambil log dengan 'tanggal' paling awal (Hari Pertama)
+            $logPertama = $timesheets->sortBy('tanggal')->first();
+            
+            // 4. KUNCI HM: Ambil log dengan 'tanggal' paling akhir (Hari Terakhir)
+            $logTerbaru = $timesheets->sortByDesc('tanggal')->first();
+
+            // 5. Gabungkan data: Tanggal tetap pakai hari pertama, tapi HM disuntik dari hari terakhir
+            $logPertama->hm_awal = $logTerbaru->hm_awal;
+            $logPertama->hm_akhir = $logTerbaru->hm_akhir;
+
+            // Masukkan ke dalam wadah data untuk ditampilkan ke HTML
+            $data->push($logPertama);
+        }
+
+        // 6. Urutkan daftar di halaman index agar proyek yang baru mulai berada di atas
+        $data = $data->sortByDesc('tanggal')->values();
 
         return view('admin.timesheet.index', compact('data'));
     }
