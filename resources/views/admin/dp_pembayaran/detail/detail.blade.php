@@ -94,9 +94,13 @@
 
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-1">
-                                            <a href="{{ route('dp.edit', $row->id) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit">
+                                            <a href="{{ route('dp.edit', ['dp' => $row->id, 'from_detail' => 1]) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit">
                                                 <i data-lucide="edit-2" width="14" height="14"></i>
                                             </a>
+
+                                            {{-- <a href="{{ route('timesheet.edit', ['timesheet' => $row->id, 'from_detail' => 1]) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit Log">
+                                            <i data-lucide="edit" width="14" height="14"></i>
+                                        </a> --}}
 
                                             <form action="{{ route('dp.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus riwayat DP ini?')">
                                                 @csrf
@@ -118,7 +122,6 @@
                         <i class="btn-icon-prepend" data-lucide="arrow-left"></i> Kembali ke Buku Induk
                     </a>
                 </div>
-
             </div>
         </div>
     </div>

@@ -69,6 +69,40 @@ class TimesheetController extends Controller
         return view('admin.timesheet.create', compact('transaksi'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'transaksi_sewa_id' => 'required',
+            'tanggal'           => 'required|date',
+            'hm_awal'  => 'nullable|numeric', 
+            'hm_akhir' => 'nullable|numeric',
+            'foto'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $data = $request->all();
+
+        // ==========================================
+        // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
+        // ==========================================
+        $data['hm_awal'] = empty($request->hm_awal) ? 0 : $request->hm_awal;
+        $data['hm_akhir'] = empty($request->hm_akhir) ? 0 : $request->hm_akhir;
+        // ==========================================
+
+        // Logika Upload Foto
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('timesheet_photos', 'public');
+        }
+
+        $timesheet = Timesheet::create($data);
+
+        if ($request->has('from_detail')) {
+            $masterTimesheet = Timesheet::where('transaksi_sewa_id', $timesheet->transaksi_sewa_id)->first();
+            return redirect()->route('timesheet.show', $masterTimesheet->id)->with('success', 'Log harian berhasil disimpan!');
+        }
+
+        return redirect()->route('timesheet.index')->with('success', 'Data Timesheet berhasil ditambahkan!');
+    }
+
     /**
      * Menampilkan form edit Timesheet.
      */
@@ -95,16 +129,7 @@ class TimesheetController extends Controller
         return view('admin.timesheet.edit', compact('data', 'transaksi'));
     }
 
-    public function destroy($id)
-    {
-        $data = Timesheet::findOrFail($id);
-        $data->delete();
-
-        return redirect()->route('timesheet.index')
-                         ->with('success', 'Data Timesheet berhasil dihapus!');
-    }
-
-
+   
      public function update(Request $request, $id)
     {
         $request->validate([
@@ -144,38 +169,15 @@ class TimesheetController extends Controller
         return redirect()->route('timesheet.index')->with('success', 'Data proyek berhasil diperbarui!');
     }
 
-    public function store(Request $request)
+    
+
+     public function destroy($id)
     {
-        $request->validate([
-            'transaksi_sewa_id' => 'required',
-            'tanggal'           => 'required|date',
-            'hm_awal'  => 'nullable|numeric', 
-            'hm_akhir' => 'nullable|numeric',
-            'foto'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        $data = Timesheet::findOrFail($id);
+        $data->delete();
 
-        $data = $request->all();
-
-        // ==========================================
-        // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
-        // ==========================================
-        $data['hm_awal'] = empty($request->hm_awal) ? 0 : $request->hm_awal;
-        $data['hm_akhir'] = empty($request->hm_akhir) ? 0 : $request->hm_akhir;
-        // ==========================================
-
-        // Logika Upload Foto
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('timesheet_photos', 'public');
-        }
-
-        $timesheet = Timesheet::create($data);
-
-        if ($request->has('from_detail')) {
-            $masterTimesheet = Timesheet::where('transaksi_sewa_id', $timesheet->transaksi_sewa_id)->first();
-            return redirect()->route('timesheet.show', $masterTimesheet->id)->with('success', 'Log harian berhasil disimpan!');
-        }
-
-        return redirect()->route('timesheet.index')->with('success', 'Data Timesheet berhasil ditambahkan!');
+        return redirect()->route('timesheet.index')
+                         ->with('success', 'Data Timesheet berhasil dihapus!');
     }
 
     /**

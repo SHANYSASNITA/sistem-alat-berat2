@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                            <a href="{{ route('dp.show', $data->id) }}" class="btn btn-secondary me-2">Batal</a>
+                        <button type="button" onclick="history.back()" class="btn btn-secondary me-2">Batal</button>
                             <button type="submit" class="btn btn-primary text-white">
                                 <i data-lucide="refresh-cw" class="icon-sm me-1"></i> Perbarui Data
                             </button>

@@ -27,13 +27,17 @@ class DpPembayaranController extends Controller
     return view('admin.dp_pembayaran.index', compact('data'));
 }
 
-    // 👇 INI DIA FUNGSI YANG HILANG SEBELUMNYA! 👇
-    public function create()
-{
-    // Mengambil data transaksi untuk dropdown
-    $transaksi = \App\Models\TransaksiSewa::orderBy('id', 'desc')->get();
-    return view('admin.dp_pembayaran.create', compact('transaksi'));
-}
+    public function create(Request $request)
+    {
+        $transaksi = TransaksiSewa::orderBy('id', 'desc')->get();
+
+        // PERBAIKAN FATAL: Ubah kata transaksi_id menjadi transaksi_sewa_id
+        if ($request->filled('transaksi_sewa_id')) {
+            return view('admin.dp_pembayaran.detail.create', compact('transaksi'));
+        }
+
+        return view('admin.dp_pembayaran.create', compact('transaksi'));
+    }
 
     public function store(Request $request)
     {
@@ -53,15 +57,29 @@ class DpPembayaranController extends Controller
 
         $dp = DpPembayaran::create($validated);
 
-        // Setelah berhasil simpan, langsung loncat ke Halaman Rincian/Detail
-        return redirect()->route('dp.show', $dp->id)
-            ->with('success', 'Pembayaran berhasil ditambahkan dan otomatis masuk ke rincian!');
+        // ==========================================
+        // PENYESUAIAN ALUR SEPERTI TIMESHEET
+        // ==========================================
+        if ($request->has('from_detail')) {
+            // Cari master ID untuk rute kembali ke halaman show/detail
+            $masterDp = DpPembayaran::where('transaksi_sewa_id', $dp->transaksi_sewa_id)->first();
+            return redirect()->route('dp.show', $masterDp->id)
+                ->with('success', 'Pembayaran berhasil ditambahkan!');
+        }
+
+        return redirect()->route('dp.index')
+            ->with('success', 'Pembayaran berhasil ditambahkan!');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $data = DpPembayaran::findOrFail($id);
         $transaksi = TransaksiSewa::orderBy('id')->get();
+
+        // ALUR 1: Jika tombol diklik dari DALAM folder detail
+        if ($request->has('from_detail')) {
+            return view('admin.dp_pembayaran.detail.edit', compact('data', 'transaksi'));
+        }
 
         return view('admin.dp_pembayaran.edit', compact('data', 'transaksi'));
     }
