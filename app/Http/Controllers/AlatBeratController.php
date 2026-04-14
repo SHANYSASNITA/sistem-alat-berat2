@@ -10,7 +10,7 @@ class AlatBeratController extends Controller
 {
     public function index()
     {
-        $data = AlatBerat::orderBy('nama_alat')->get();
+        $data = AlatBerat::orderBy('created_at', 'asc')->get();
         return view('admin.alat_berat.index', compact('data')); 
     }
 

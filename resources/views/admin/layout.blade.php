@@ -121,12 +121,6 @@
 
                     <li class="nav-item nav-category">Settings</li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="link-icon" data-lucide="users"></i>
-                            <span class="link-title">Akun</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('profile.index') }}" class="nav-link {{ request()->routeIs('timesheet.*') ? 'active' : '' }}">
                             <i class="link-icon" data-lucide="user-cog"></i>
                             <span class="link-title">Profile</span>

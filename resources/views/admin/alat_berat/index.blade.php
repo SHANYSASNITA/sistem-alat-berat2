@@ -108,6 +108,7 @@
         $(document).ready(function() {
             if ($('#dataTableExample').length) {
                 $('#dataTableExample').DataTable({
+                    "order": [],
                     "aLengthMenu": [
                         [5, 10, 30, 50, -1],
                         [5, 10, 30, 50, "All"]
