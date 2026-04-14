@@ -75,21 +75,30 @@
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="p-5 bg-white rounded shadow-sm text-center h-100">
+                        {{-- Icon Layanan Baket --}}
+                        <div class="mb-4">
+                            <img src="{{ asset('assets/profile/images/icon-baket.png') }}" alt="Icon Baket" style="width: 120px; height: auto;">
+                        </div>
+                        
                         <h3 class="font-weight-bold text-black mb-3">{{ $profile->service_title_1 ?? 'Layanan Baket' }}</h3>
-                        <p class="text-muted">{{ $profile->service_desc_1 ?? 'Deskripsi layanan baket...' }}</p>
+                        <p class="text-muted">{{ $profile->service_desc_1 ?? 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' }}</p>
                     </div>
                 </div>
                 <div class="col-md-6 mb-4">
                     <div class="p-5 bg-white rounded shadow-sm text-center h-100">
+                        {{-- Icon Layanan Breker --}}
+                        <div class="mb-4">
+                            <img src="{{ asset('assets/profile/images/icon-breker.png') }}" alt="Icon Breker" style="width: 120px; height: auto;">
+                        </div>
+                        
                         <h3 class="font-weight-bold text-black mb-3">{{ $profile->service_title_2 ?? 'Layanan Breker' }}</h3>
-                        <p class="text-muted">{{ $profile->service_desc_2 ?? 'Deskripsi layanan breker...' }}</p>
+                        <p class="text-muted">{{ $profile->service_desc_2 ?? 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
 @section('tools')
     <div class="site-section bg-light" id="tools">
         <div class="container">

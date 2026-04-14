@@ -101,7 +101,7 @@
                             <h6 class="text-primary mb-3"><i data-lucide="dollar-sign" class="icon-sm me-1"></i> Biaya & Jadwal</h6>
 
                             <div class="col-md-3 mb-3">
-                                <label class="form-label">Biaya Modem (Rp)</label>
+                                <label class="form-label">Biaya Mobdem (Rp)</label>
                                 <input type="number" name="biaya_modem" class="form-control" value="{{ old('biaya_modem') }}" placeholder="0">
                             </div>
 
