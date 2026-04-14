@@ -90,10 +90,12 @@
                                 </td>
                                 <td class="text-center">
                                     @if($row->foto)
-                                        <a href="{{ asset('storage/' . $row->foto) }}" target="_blank">
+                                        <a href="javascript:void(0);" onclick="showImageModal('{{ asset('storage/' . $row->foto) }}', 'Bukti Kerja - {{ \Carbon\Carbon::parse($row->tanggal)->format('d M Y') }}')">
                                             <img src="{{ asset('storage/' . $row->foto) }}" 
+                                                alt="Foto Timesheet"
                                                 class="rounded border"
-                                                style="width: 50px; height: 35px; object-fit: cover;">
+                                                style="width: 50px; height: 35px; object-fit: cover; transition: transform 0.2s;"
+                                                data-bs-toggle="tooltip" title="Klik untuk lihat gambar">
                                         </a>
                                     @else
                                         <span class="text-muted small">-</span>
@@ -129,9 +131,45 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="imageModalLabel">Preview Foto Timesheet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                <img id="previewImage" src="" alt="Preview" class="img-fluid w-100" style="max-height: 80vh; object-fit: contain; background-color: #f8f9fa;">
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
+@push('styles')
+    {{-- PERBAIKAN: Menambahkan library CSS DataTables --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    
+    <style>
+        /* Efek hover pada gambar agar makin estetik */
+        td img:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+    </style>
+@endpush
+
 @push('scripts')
+    {{-- PERBAIKAN: Menambahkan library JS jQuery dan DataTables --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
     <script>
         $(document).ready(function() {
             if ($('#dataTableTimesheetDetail').length) {
@@ -144,5 +182,19 @@
                 });
             }
         });
+
+        // ======================================================== 
+        // FUNGSI JAVASCRIPT UNTUK MENAMPILKAN POP-UP GAMBAR 
+        // ======================================================== 
+        function showImageModal(imageUrl, titleName) {
+            // Masukkan url gambar ke tag img dalam pop-up
+            $('#previewImage').attr('src', imageUrl);
+            
+            // Ubah teks judul pop-up
+            $('#imageModalLabel').text(titleName);
+            
+            // Tampilkan pop-up
+            $('#imagePreviewModal').modal('show');
+        }
     </script>
 @endpush

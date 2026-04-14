@@ -50,11 +50,12 @@
                                     
                                     <td class="text-center">
                                         @if($row->foto)
-                                            <a href="{{ asset('storage/' . $row->foto) }}" target="_blank">
+                                            <a href="javascript:void(0);" onclick="showImageModal('{{ asset('storage/' . $row->foto) }}', '{{ $row->nama_alat }}')">
                                                 <img src="{{ asset('storage/' . $row->foto) }}" 
                                                     alt="Foto {{ $row->nama_alat }}" 
                                                     class="rounded border shadow-sm" 
-                                                    style="width: 70px; height: 50px; object-fit: cover;">
+                                                    style="width: 70px; height: 50px; object-fit: cover;"
+                                                    data-bs-toggle="tooltip" title="Klik untuk lihat gambar">
                                             </a>
                                         @else
                                             <span class="text-muted small">No Photo</span>
@@ -92,6 +93,24 @@
     </div>
 </div>
 
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="imageModalLabel">Preview Alat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                {{-- Tag img ini awalnya kosong, src-nya akan diisi otomatis oleh Javascript --}}
+                <img id="previewImage" src="" alt="Preview" class="img-fluid w-100" style="max-height: 80vh; object-fit: contain; background-color: #f8f9fa;">
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('styles')
@@ -121,5 +140,17 @@
                 });
             }
         });
+
+        // Fungsi untuk menampilkan pop up gambar
+    function showImageModal(imageUrl, alatName) {
+        // 1. Masukkan link gambar ke dalam Pop-Up
+        $('#previewImage').attr('src', imageUrl);
+        
+        // 2. Ubah judul Pop-Up sesuai nama alat
+        $('#imageModalLabel').text('Foto: ' + alatName);
+        
+        // 3. Tampilkan Pop-Up nya
+        $('#imagePreviewModal').modal('show');
+    }
     </script>
 @endpush

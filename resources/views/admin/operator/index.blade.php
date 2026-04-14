@@ -46,10 +46,11 @@
                 
                 <td>
                     @if($row->ktp_operator)
-                        <a href="{{ asset('storage/' . $row->ktp_operator) }}" target="_blank" data-bs-toggle="tooltip" title="Klik untuk memperbesar">
+                        <a href="javascript:void(0);" onclick="showImageModal('{{ asset('storage/' . $row->ktp_operator) }}', 'KTP {{ $row->nama }}')">
                             <img src="{{ asset('storage/' . $row->ktp_operator) }}" 
-                                 alt="KTP {{ $row->nama }}" 
-                                 style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                                alt="KTP {{ $row->nama }}" 
+                                style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;"
+                                data-bs-toggle="tooltip" title="Klik untuk lihat gambar">
                         </a>
                     @else
                         <span class="text-muted small"><i data-lucide="image-off" class="w-4 h-4 d-inline"></i> Kosong</span>
@@ -79,6 +80,24 @@
     </div>
 </div>
 
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="imageModalLabel">Preview Alat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                {{-- Tag img ini awalnya kosong, src-nya akan diisi otomatis oleh Javascript --}}
+                <img id="previewImage" src="" alt="Preview" class="img-fluid w-100" style="max-height: 80vh; object-fit: contain; background-color: #f8f9fa;">
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('styles')
@@ -94,6 +113,7 @@
         $(document).ready(function() {
             if ($('#dataTableOperator').length) {
                 $('#dataTableOperator').DataTable({
+                    "order": [],
                     "aLengthMenu": [
                         [5, 10, 30, 50, -1],
                         [5, 10, 30, 50, "All"]
@@ -106,5 +126,16 @@
                 });
             }
         });
+        // Fungsi untuk menampilkan pop up gambar
+    function showImageModal(imageUrl, alatName) {
+        // 1. Masukkan link gambar ke dalam Pop-Up
+        $('#previewImage').attr('src', imageUrl);
+        
+        // 2. Ubah judul Pop-Up sesuai nama alat
+        $('#imageModalLabel').text('Foto: ' + alatName);
+        
+        // 3. Tampilkan Pop-Up nya
+        $('#imagePreviewModal').modal('show');
+    }
     </script>
 @endpush

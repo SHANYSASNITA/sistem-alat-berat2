@@ -81,11 +81,13 @@
 
                                     <td class="text-center">
                                         @if($row->bukti_pembayaran)
-                                            <a href="{{ asset('storage/' . $row->bukti_pembayaran) }}" target="_blank" data-bs-toggle="tooltip" title="Klik untuk memperbesar">
+                                            {{-- PERUBAHAN: Memanggil Pop-up JS --}}
+                                            <a href="javascript:void(0);" onclick="showImageModal('{{ asset('storage/' . $row->bukti_pembayaran) }}', 'Bukti Transfer Rp {{ number_format($row->jumlah, 0, ',', '.') }}')">
                                                 <img src="{{ asset('storage/' . $row->bukti_pembayaran) }}" 
                                                      alt="Bukti Transfer" 
                                                      class="rounded border"
-                                                     style="width: 70px; height: 50px; object-fit: cover; transition: transform 0.2s;">
+                                                     style="width: 70px; height: 50px; object-fit: cover; transition: transform 0.2s;"
+                                                     data-bs-toggle="tooltip" title="Klik untuk lihat gambar">
                                             </a>
                                         @else
                                             <span class="text-muted small"><i data-lucide="image-off" class="w-4 h-4 d-inline me-1"></i> Kosong</span>
@@ -97,10 +99,6 @@
                                             <a href="{{ route('dp.edit', ['dp' => $row->id, 'from_detail' => 1]) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit">
                                                 <i data-lucide="edit-2" width="14" height="14"></i>
                                             </a>
-
-                                            {{-- <a href="{{ route('timesheet.edit', ['timesheet' => $row->id, 'from_detail' => 1]) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit Log">
-                                            <i data-lucide="edit" width="14" height="14"></i>
-                                        </a> --}}
 
                                             <form action="{{ route('dp.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus riwayat DP ini?')">
                                                 @csrf
@@ -122,6 +120,23 @@
                         <i class="btn-icon-prepend" data-lucide="arrow-left"></i> Kembali ke Buku Induk
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="imageModalLabel">Preview Bukti Pembayaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                <img id="previewImage" src="" alt="Preview" class="img-fluid w-100" style="max-height: 80vh; object-fit: contain; background-color: #f8f9fa;">
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
@@ -159,5 +174,19 @@
                 });
             }
         });
+
+        // ======================================================== 
+        // FUNGSI JAVASCRIPT UNTUK MENAMPILKAN POP-UP GAMBAR 
+        // ======================================================== 
+        function showImageModal(imageUrl, titleName) {
+            // Masukkan url gambar ke tag img dalam pop-up
+            $('#previewImage').attr('src', imageUrl);
+            
+            // Ubah teks judul pop-up
+            $('#imageModalLabel').text(titleName);
+            
+            // Tampilkan pop-up
+            $('#imagePreviewModal').modal('show');
+        }
     </script>
 @endpush

@@ -16,7 +16,21 @@
             <div class="card-body">
                 <h6 class="card-title mb-4">Edit Log Penggunaan Alat</h6>
 
-                <form action="{{ route('timesheet.update', $data->id) }}" method="POST">
+                {{-- TAMBAHAN: Menampilkan pesan error jika ada yang salah --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Gagal menyimpan data!</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                {{-- PERBAIKAN: Menambahkan enctype untuk upload file --}}
+                <form action="{{ route('timesheet.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     
@@ -27,7 +41,7 @@
                         <label class="form-label text-primary fw-bold">1. Transaksi Sewa Terpilih</label>
                         <div class="input-group">
                             <span class="input-group-text border-primary bg-light">
-                                <i data-lucide="" class="text-secondary" width="16" height="16"></i>
+                                <i data-lucide="info" class="text-secondary" width="16" height="16"></i>
                             </span>
                             <select class="form-select border-primary bg-light" style="background-image: none;" disabled>
                                 @foreach ($transaksi as $row)
@@ -72,7 +86,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">3. Foto</label> @if($data->foto)
+                        <label class="form-label fw-bold">3. Foto</label> 
+                        @if($data->foto)
                             <div class="mb-2">
                                 <img src="{{ asset('storage/' . $data->foto) }}" class="rounded border" style="height: 80px;">
                             </div>

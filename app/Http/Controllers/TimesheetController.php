@@ -130,14 +130,15 @@ class TimesheetController extends Controller
     }
 
    
-     public function update(Request $request, $id)
+public function update(Request $request, $id)
     {
+        // PERBAIKAN: Ganti hm_awal & hm_akhir menjadi jam_baket & jam_breker
         $request->validate([
             'transaksi_sewa_id' => 'required',
             'tanggal'           => 'required|date',
-            'hm_awal'  => 'nullable|numeric', 
-            'hm_akhir' => 'nullable|numeric',
-            'foto'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'jam_baket'         => 'nullable|numeric', 
+            'jam_breker'        => 'nullable|numeric',
+            'foto'              => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $timesheet = Timesheet::findOrFail($id);
@@ -146,8 +147,8 @@ class TimesheetController extends Controller
         // ==========================================
         // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
         // ==========================================
-        $data['hm_awal'] = empty($request->hm_awal) ? 0 : $request->hm_awal;
-        $data['hm_akhir'] = empty($request->hm_akhir) ? 0 : $request->hm_akhir;
+        $data['jam_baket'] = empty($request->jam_baket) ? 0 : $request->jam_baket;
+        $data['jam_breker'] = empty($request->jam_breker) ? 0 : $request->jam_breker;
         // ==========================================
 
         // Logika Ganti Foto

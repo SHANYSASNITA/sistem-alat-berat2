@@ -16,14 +16,14 @@
             <div class="card-body">
                 <h6 class="card-title mb-4">Input Penggunaan Alat (Log Harian)</h6>
 
-                <form action="{{ route('timesheet.store') }}" method="POST">
+                {{-- PASTIKAN MENGGUNAKAN ENCTYPE UNTUK UPLOAD FILE --}}
+                <form action="{{ route('timesheet.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <input type="hidden" name="from_detail" value="1">
-                    
                     <input type="hidden" name="transaksi_sewa_id" value="{{ request('transaksi_id') }}">
 
-                    {{-- Step 1: Info Transaksi (Dibuat Read-Only karena sudah otomatis terpilih) --}}
+                    {{-- Step 1: Info Transaksi --}}
                     <div class="mb-3">
                         <label class="form-label text-primary fw-bold">1. Transaksi Sewa Terpilih</label>
                         <select class="form-select border-primary bg-light" disabled>
@@ -68,6 +68,12 @@
                                 </div>
                             </div>
                         @endif
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">3. Foto Bukti Kerja <span class="text-muted small">(Opsional)</span></label>
+                        <input type="file" name="foto" class="form-control" accept="image/*">
+                        <div class="form-text text-muted small">Upload foto saat alat beroperasi. Maksimal 2MB.</div>
                     </div>
 
                     <div class="d-flex justify-content-end mt-4">
