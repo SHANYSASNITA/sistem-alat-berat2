@@ -69,14 +69,6 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Status Pembayaran <span class="text-danger">*</span></label>
-                                <select name="status" class="form-select @error('status') is-invalid @enderror" required>
-                                    <option value="belum_lunas" {{ old('status', $data->status) == 'belum_lunas' ? 'selected' : '' }}>Belum Lunas (DP / Cicilan)</option>
-                                    <option value="lunas" {{ old('status', $data->status) == 'lunas' ? 'selected' : '' }}>Lunas (Pelunasan)</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
                                 <label class="form-label d-block">Ganti Bukti Transfer <span class="text-muted small">(Opsional)</span></label>
                                 @if($data->bukti_pembayaran)
                                     <div class="mb-2">

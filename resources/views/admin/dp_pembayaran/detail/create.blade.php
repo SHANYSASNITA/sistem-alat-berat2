@@ -62,14 +62,6 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Status Pembayaran <span class="text-danger">*</span></label>
-                                <select name="status" class="form-select" required>
-                                    <option value="belum_lunas">Belum Lunas (DP / Cicilan)</option>
-                                    <option value="lunas">Lunas (Pelunasan)</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Upload Bukti Transfer <span class="text-danger">*</span></label>
                                 <input type="file" name="bukti_pembayaran" class="form-control" accept="image/*" required>
                             </div>
