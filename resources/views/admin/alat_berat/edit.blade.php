@@ -98,8 +98,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary me-2 mt-3 text-white">
-                            <i data-lucide="save" class="icon-sm me-1"></i> Update Data
-                        </button>
+                            <i data-lucide="save" class="icon-sm me-1"></i> update</button>
                         <a href="{{ route('alat.index') }}" class="btn btn-secondary mt-3">Kembali</a>
 
                     </form>

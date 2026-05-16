@@ -16,7 +16,6 @@
             <div class="card-body">
                 <h6 class="card-title mb-4">Input Penggunaan Alat (Log Harian)</h6>
 
-                {{-- PASTIKAN MENGGUNAKAN ENCTYPE UNTUK UPLOAD FILE --}}
                 <form action="{{ route('timesheet.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
@@ -79,7 +78,7 @@
                     <div class="d-flex justify-content-end mt-4">
                         <button type="button" onclick="history.back()" class="btn btn-secondary me-2">Batal</button>
                         <button type="submit" class="btn btn-primary text-white">
-                            <i data-lucide="save" class="icon-sm me-1"></i> Simpan Log
+                            <i data-lucide="save" class="icon-sm me-1"></i> Simpan
                         </button>
                     </div>
                 </form>

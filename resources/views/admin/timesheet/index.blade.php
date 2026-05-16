@@ -13,12 +13,11 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-                    <h6 class="card-title mb-0">Laporan Penggunaan Alat (Timesheet)</h6>
+                    <h6 class="card-title mb-0">Daftar Data Penggunaan Alat (Timesheet)</h6>
                     
                     <div class="d-flex flex-wrap gap-2">
                         <a href="{{ route('timesheet.create') }}" class="btn btn-primary btn-icon-text btn-sm">
-                            <i class="btn-icon-prepend" data-lucide="plus"></i> Tambah Data
-                        </a>
+                            <i class="btn-icon-prepend" data-lucide="plus"></i> Tambah Laporan</a>
                     </div>
                 </div>
 
@@ -28,7 +27,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Informasi Transaksi</th>
-                                <th>Tanggal</th>
+                                <th>Log Terakhir</th>
                                 <th>Lokasi Proyek</th>
                                 <th class="text-center">HM Awal</th>
                                 <th class="text-center">HM Akhir</th>
@@ -61,8 +60,13 @@
                                     </td>
                                     
                                     <td>{{ $row->transaksi->lokasi_proyek ?? '-' }}</td>
-                                    <td class="text-center fw-bold text-secondary">{{ $row->hm_awal ?? '0' }}</td>
-                                    <td class="text-center fw-bold text-primary">{{ $row->hm_akhir ?? '0' }}</td>
+                                    
+                                    <td class="text-center fw-bold text-secondary">
+                                        {{ number_format($row->total_hm_awal, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-center fw-bold text-primary">
+                                        {{ number_format($row->total_hm_akhir, 0, ',', '.') }}
+                                    </td>
 
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-1">
@@ -108,17 +112,6 @@
                     "language": { search: "", searchPlaceholder: "Cari data..." }
                 });
             }
-            
-            // Logic Export
-            document.getElementById('exportForm').addEventListener('submit', function(e) {
-                const transaksiId = document.getElementById('transaksiSelect').value;
-                if (!transaksiId) {
-                    alert('Pilih transaksi yang ingin di-export terlebih dahulu.');
-                    e.preventDefault();
-                    return;
-                }
-                this.action = this.action.replace('dummy', transaksiId);
-            });
         });
     </script>
 @endpush

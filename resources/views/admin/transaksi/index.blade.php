@@ -17,8 +17,7 @@
                     <h6 class="card-title mb-0">Daftar Transaksi Sewa</h6>
                     <a href="{{ route('transaksi.create') }}" class="btn btn-primary btn-icon-text">
                         <i class="btn-icon-prepend" data-lucide="plus"></i>
-                        Buat Transaksi Baru
-                    </a>
+                        Buat Transaksi</a>
                 </div>
                 
                 <p class="text-secondary mb-4">Manajemen seluruh aktivitas penyewaan alat berat C.V. LISAN.</p>

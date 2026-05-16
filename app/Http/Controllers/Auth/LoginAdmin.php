@@ -13,7 +13,6 @@ class LoginAdmin extends Controller
      */
     public function index()
     {
-        // Pastikan file view ini ada di resources/views/auth/login.blade.php
         return view('auth.login');
     }
 
@@ -22,24 +21,26 @@ class LoginAdmin extends Controller
      */
     public function authenticate(Request $request)
     {
-        // Validasi input untuk menjamin integritas data
+        // 1. Aturan jika kolom email dan password kosong
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],
+        ], [
+            'email.required'    => 'Email Anda tidak boleh kosong.',
+            'email.email'       => 'Format email tidak valid.',
+            'password.required' => 'Password Anda tidak boleh kosong.',
         ]);
 
-        // Mencoba login dengan credentials yang diberikan
+        // 2. Mencoba login dengan email dan password yang diinput
         if (Auth::attempt($credentials)) {
-            // Mencegah serangan Session Fixation
+            // Jika benar, masuk ke dashboard
             $request->session()->regenerate();
-
-            // Redirect ke dashboard manajemen alat berat
-            return redirect()->intended('admin/alat');
+            return redirect()->intended('admin/dashboard')->with('success', 'Berhasil login! Selamat datang di Admin Panel.');
         }
 
-        // Jika gagal, kembali dengan pesan error
+        // 3. Aturan jika input email dan password salah
         return back()->withErrors([
-            'email' => 'Email atau password yang Anda masukkan tidak sesuai.',
+            'login_error' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
 
@@ -53,7 +54,6 @@ class LoginAdmin extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Kembali ke landing page CV Lisan setelah logout
         return redirect('/login');
     }
 }

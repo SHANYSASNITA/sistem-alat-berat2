@@ -54,7 +54,7 @@
                                 <label class="form-label">Tanggal Pembayaran <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i data-lucide="calendar" class="icon-sm"></i></span>
-                                    <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal', $data->tanggal) }}" required>
+                                    <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal', \Carbon\Carbon::parse($data->tanggal)->format('Y-m-d')) }}" required>
                                 </div>
                             </div>
                             
@@ -98,7 +98,7 @@
                         <div class="d-flex justify-content-end mt-4 pt-3 border-top">
                         <button type="button" onclick="history.back()" class="btn btn-secondary me-2">Batal</button>
                             <button type="submit" class="btn btn-primary text-white">
-                                <i data-lucide="refresh-cw" class="icon-sm me-1"></i> Perbarui Data
+                                <i data-lucide="refresh-cw" class="icon-sm me-1"></i> Update
                             </button>
                         </div>
                     </form>

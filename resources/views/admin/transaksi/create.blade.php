@@ -13,7 +13,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card border-top border-4 border-primary">
                 <div class="card-body">
-                    <h6 class="card-title mb-4">Formulir Penyewaan Baru</h6>
+                    <h6 class="card-title mb-4">Form tambah Penyewaan</h6>
 
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -138,8 +138,7 @@
                         <div class="d-flex justify-content-end mt-4">
                             <a href="{{ route('transaksi.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary text-white">
-                                <i data-lucide="save" class="icon-sm me-1"></i> Simpan Transaksi
-                            </button>
+                                <i data-lucide="save" class="icon-sm me-1"></i> Simpan</button>
                         </div>
                     </form>
                 </div>

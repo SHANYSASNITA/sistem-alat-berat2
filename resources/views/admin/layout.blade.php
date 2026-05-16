@@ -199,7 +199,7 @@
     </div>
 
     <script src="{{ asset('assets/vendors/core/core.js') }}"></script>
-    <script src="{{ asset('assets/vendors/lucide/lucide.min.js') }}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script> 
     <script>
         lucide.createIcons();

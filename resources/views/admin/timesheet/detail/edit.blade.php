@@ -98,7 +98,7 @@
                     <div class="d-flex justify-content-end mt-4">
                         <button type="button" onclick="history.back()" class="btn btn-secondary me-2">Batal</button>
                         <button type="submit" class="btn btn-primary text-white">
-                            <i data-lucide="refresh-cw" class="icon-sm me-1"></i> Update Log
+                            <i data-lucide="refresh-cw" class="icon-sm me-1"></i> Update
                         </button>
                     </div>
                 </form>

@@ -138,8 +138,7 @@
                         <div class="d-flex justify-content-end mt-4">
                             <a href="{{ route('transaksi.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary text-white">
-                                <i data-lucide="save" class="icon-sm me-1"></i> Update Transaksi
-                            </button>
+                                <i data-lucide="save" class="icon-sm me-1"></i> Update</button>
                         </div>
                     </form>
                 </div>

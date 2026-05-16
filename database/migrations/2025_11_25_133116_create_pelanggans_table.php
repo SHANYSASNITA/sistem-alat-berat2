@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('kontak', 50)->nullable();
             $table->text('alamat')->nullable();
             $table->date('tanggal_lahir');
-            $table->string('jenis_kelamin');
-            $table->string('agama')->nullable();
-            $table->text('tempat_tinggal');
             $table->string('ktp_pelanggan')->nullable(); 
             
             $table->timestamps();

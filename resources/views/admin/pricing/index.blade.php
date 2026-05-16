@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Data Pricing Alat</li>
+        <li class="breadcrumb-item active" aria-current="page">Data Harga Sewa</li>
     </ol>
 </nav>
 
@@ -17,8 +17,7 @@
                     <h6 class="card-title mb-0">Daftar Harga Sewa (Pricing)</h6>
                     <a href="{{ route('pricing.create') }}" class="btn btn-primary btn-icon-text">
                         <i class="btn-icon-prepend" data-lucide="plus"></i>
-                        Tambah Pricing
-                    </a>
+                        Tambah Harga</a>
                 </div>
                 
                 <p class="text-secondary mb-4">Manajemen daftar harga sewa alat berat berdasarkan layanan (Baket & Breker).</p>

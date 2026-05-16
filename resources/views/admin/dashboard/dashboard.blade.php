@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between align-items-center grid-margin mb-4">
     <div>
         <h4 class="mb-3 mb-md-0 fw-bold">Dashboard Overview</h4>
-        <p class="text-muted small">Ringkasan operasional CV. LISAN hari ini.</p>
+        <p class="text-muted small">Ringkasan operasional CV. LISAN</p>
     </div>
 </div>
 

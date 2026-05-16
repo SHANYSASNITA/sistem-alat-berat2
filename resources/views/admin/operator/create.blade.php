@@ -13,7 +13,7 @@
         <div class="col-md-8 mx-auto stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title mb-4">Form Tambah Operator Baru</h6>
+                    <h6 class="card-title mb-4">Form Tambah Operator</h6>
 
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">

@@ -4,8 +4,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('pricing.index') }}">Data Pricing Alat</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit Pricing</li>
+            <li class="breadcrumb-item"><a href="{{ route('pricing.index') }}">Data Harga Sewa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Harga Sewa</li>
         </ol>
     </nav>
 
@@ -102,8 +102,7 @@
                         <div class="d-flex justify-content-end mt-4">
                             <a href="{{ route('pricing.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary text-white">
-                                <i data-lucide="save" class="icon-sm me-1"></i> Update Data
-                            </button>
+                                <i data-lucide="save" class="icon-sm me-1"></i> Update</button>
                         </div>
                     </form>
                 </div>

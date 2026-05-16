@@ -69,7 +69,7 @@
                         <div class="d-flex justify-content-end mt-4">
                             <a href="{{ route('timesheet.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary text-white">
-                                <i data-lucide="save" class="icon-sm me-1"></i> Simpan Data
+                                <i data-lucide="save" class="icon-sm me-1"></i> Simpan
                             </button>
                         </div>
                     </form>

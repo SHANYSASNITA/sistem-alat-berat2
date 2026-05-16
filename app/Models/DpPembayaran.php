@@ -20,7 +20,6 @@ class DpPembayaran extends Model
 
     protected $fillable = [
         'transaksi_sewa_id',
-        'operator_id',
         'tanggal',
         'jumlah',
         'keterangan',
@@ -38,10 +37,5 @@ class DpPembayaran extends Model
     {
         return $this->belongsTo(TransaksiSewa::class, 'transaksi_sewa_id');
     }
-    
-    public function operator()
-    {
-        // Catatan: Pastikan ini mengarah ke model Operator, bukan TransaksiSewa
-        return $this->belongsTo(Operator::class, 'operator_id'); 
-    }
+
 }

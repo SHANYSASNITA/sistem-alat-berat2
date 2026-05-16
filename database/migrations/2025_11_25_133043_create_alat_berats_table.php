@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('merk')->nullable();
             $table->integer('tahun')->nullable();
             $table->enum('status', ['active', 'maintenance', 'broken'])->default('active');
+            $table->string('foto');
             $table->timestamps();
         });
     }

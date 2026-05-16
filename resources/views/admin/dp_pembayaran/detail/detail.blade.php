@@ -17,7 +17,7 @@
                 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h6 class="card-title mb-0">Rincian Riwayat Pembayaran Sewa</h6>
-                    <a href="{{ route('dp.create', ['transaksi_sewa_id' => $dp->transaksi_sewa_id]) }}" class="btn btn-primary btn-icon-text btn-sm">
+                    <a href="{{ route('dp.create', ['transaksi_sewa_id' => $dp->transaksi_sewa_id, 'dp_transaksi_id' => $dp->transaksi_sewa_id]) }}" class="btn btn-primary btn-icon-text btn-sm">
                         <i class="btn-icon-prepend" data-lucide="plus"></i>
                         Tambah Cicilan/Pembayaran
                     </a>
@@ -103,7 +103,9 @@
                                             <form action="{{ route('dp.destroy', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus riwayat DP ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger btn-icon btn-sm" data-bs-toggle="tooltip" title="Hapus">
+                                                <input type="hidden" name="from_detail" value="1">
+                                                <input type="hidden" name="dp_induk_id" value="{{ $dp->id }}"> {{-- kirim id induk --}}
+                                                <button type="submit" class="btn btn-outline-danger btn-icon btn-sm">
                                                     <i data-lucide="trash" width="14" height="14"></i>
                                                 </button>
                                             </form>
@@ -117,7 +119,7 @@
 
                 <div class="mt-4 pt-3 border-top">
                     <a href="{{ route('dp.index') }}" class="btn btn-secondary btn-icon-text">
-                        <i class="btn-icon-prepend" data-lucide="arrow-left"></i> Kembali ke Buku Induk
+                        <i class="btn-icon-prepend" data-lucide="arrow-left"></i> Kembali ke daftar Utama
                     </a>
                 </div>
             </div>

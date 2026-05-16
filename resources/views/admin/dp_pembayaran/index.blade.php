@@ -14,14 +14,12 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-                    <h6 class="card-title mb-0">Buku Induk Pembayaran Sewa</h6>
+                    <h6 class="card-title mb-0">Daftar Data Pembayaran</h6>
                     <a href="{{ route('dp.create') }}" class="btn btn-primary btn-icon-text btn-sm">
-                        <i class="btn-icon-prepend" data-lucide="plus"></i>
-                        Tambah Pembayaran Baru
-                    </a>
+                        <i class="btn-icon-prepend" data-lucide="plus"></i>Tambah Pembayaran</a>
                 </div>
                 
-                <p class="text-secondary mb-4">Daftar transaksi penyewaan yang memiliki riwayat pembayaran. Klik <strong>Detail (Mata)</strong> untuk melihat seluruh riwayat cicilan dan struk transfer.</p>
+                <p class="text-secondary mb-4">Daftar pembayaran bedasarkan transaksi yang tercatat. </p> Klik  <strong>Detail (Mata)</strong> untuk melihat seluruh riwayat cicilan dan struk transfer.</p>
                 
                 <div class="table-responsive">
     <table id="dataTableDP" class="table table-hover align-middle">
@@ -76,7 +74,7 @@
                                 <i data-lucide="eye" width="14" height="14"></i>
                             </a> 
 
-                            <a href="{{ route('dp.edit', $row->id) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit DP Awal">
+                            <a href="{{ route('dp.edit', $row->id) }}" class="btn btn-outline-warning btn-icon btn-sm" data-bs-toggle="tooltip" title="Edit">
                                 <i data-lucide="edit-2" width="14" height="14"></i>
                             </a>
 

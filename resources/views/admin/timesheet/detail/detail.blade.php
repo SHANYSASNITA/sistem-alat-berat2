@@ -5,7 +5,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('timesheet.index') }}">Data Timesheet</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Rincian Laporan Transaksi</li>
+        <li class="breadcrumb-item active" aria-current="page">Rincian Laporan Timesheet</li>
     </ol>
 </nav>
 
@@ -15,7 +15,7 @@
             <div class="card-body">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
                     <h6 class="card-title mb-0">Rincian Laporan Penggunaan Alat (Timesheet)</h6>
-                    
+
                     <div class="d-flex flex-wrap gap-2">
                         <div class="d-flex gap-1">
                             <div class="input-group input-group-sm">
@@ -30,6 +30,8 @@
                         </a>
                     </div>
                 </div>
+
+                <p class="text-secondary mb-4">Rincian laporan Timesheet alat berat bedasarkan inputan Log Harian</p>
 
                 <div class="bg-light p-4 rounded border mb-4">
                     <h6 class="text-primary fw-bold border-bottom pb-2 mb-3">

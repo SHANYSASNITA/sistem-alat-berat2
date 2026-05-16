@@ -36,7 +36,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nama Alat <span class="text-danger">*</span></label>
-                                <input type="text" name="nama_alat" class="form-control @error('nama_alat') is-invalid @enderror" value="{{ old('nama_alat') }}" required placeholder="Contoh: Excavator Komatsu">
+                                <input type="text" name="nama_alat" class="form-control @error('nama_alat') is-invalid @enderror" value="{{ old('nama_alat') }}" required placeholder="Contoh: Komatsu">
                                 @error('nama_alat')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -91,7 +91,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary me-2 mt-3 text-white">
-                            <i data-lucide="save" class="icon-sm me-1"></i> Simpan Data
+                            <i data-lucide="save" class="icon-sm me-1"></i> Simpan
                         </button>
                         <a href="{{ route('alat.index') }}" class="btn btn-secondary mt-3">Kembali</a>
 

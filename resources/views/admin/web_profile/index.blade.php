@@ -6,17 +6,17 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Manajemen Konten Website (Landing Page)</h6>
-                <p class="text-muted mb-4">Pusat pengaturan data Hero Section, About Us, dan Services.</p>
+                <p class="text-muted mb-4">Pusat pengaturan data Home, About, dan Services.</p>
 
                 <form action="{{ route('admin.web-profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="hero-tab" data-bs-toggle="tab" href="#hero" role="tab">Hero Section</a>
+                            <a class="nav-link active" id="hero-tab" data-bs-toggle="tab" href="#hero" role="tab">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" role="tab">About Us</a>
+                            <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" role="tab">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="services-tab" data-bs-toggle="tab" href="#services" role="tab">Services (Layanan)</a>
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-center border-start">
-                                    <label class="form-label fw-bold text-primary">Background Hero</label>
+                                    <label class="form-label fw-bold text-primary">Background Home</label>
                                     
                                     {{-- PERBAIKAN PREVIEW HERO: Selalu tampilkan tag img agar JS bisa bekerja --}}
                                     <div class="mb-2">
@@ -60,7 +60,7 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="mb-3">
-                                        <label class="form-label fw-bold text-success">Judul About Us</label>
+                                        <label class="form-label fw-bold text-success">Judul About</label>
                                         <input type="text" name="about_title" class="form-control" value="{{ $profile->about_title ?? '' }}">
                                     </div>
                                     <div class="mb-3">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-center border-start">
-                                    <label class="form-label fw-bold text-success">Foto Profil Perusahaan</label>
+                                    <label class="form-label fw-bold text-success">Foto Perusahaan</label>
                                     
                                     {{-- PERBAIKAN PREVIEW ABOUT: Tambahkan id preview-about --}}
                                     <div class="mb-2">
@@ -118,7 +118,7 @@
                     
                     <div class="d-flex justify-content-end mt-4">
                         <button type="submit" class="btn btn-primary btn-lg text-white px-5 shadow">
-                            <i data-lucide="save" class="icon-sm me-1"></i> SIMPAN SEMUA PERUBAHAN
+                            <i data-lucide="save" class="icon-sm me-1"></i> SIMPAN PERUBAHAN
                         </button>
                      </div>
                 </form>

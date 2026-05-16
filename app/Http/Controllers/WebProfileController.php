@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class WebProfileController extends Controller
 {
-    // Menampilkan semua form dalam satu halaman
+
     public function index()
     {
         $profile = DB::table('web_profiles')->first();

@@ -17,7 +17,6 @@ class DashboardController extends Controller
         $totalPelanggan = Pelanggan::count();
         $proyekAktif = TransaksiSewa::where('status', '!=', 'selesai')->count();
 
-        // PERHATIKAN BARIS INI: Pakai admin.dashboard.dashboard sesuai folder Anda
         return view('admin.dashboard.dashboard', compact(
             'totalAlat', 
             'totalOperator', 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-// Import class baru yang menggunakan PhpSpreadsheet
 use App\Exports\TimesheetTemplateExport; 
 use App\Models\Timesheet;
 use App\Models\TransaksiSewa;
@@ -10,39 +9,31 @@ use Illuminate\Http\Request;
 
 class TimesheetController extends Controller
 {
-    /**
-     * Menampilkan daftar Timesheet.
-     */
     public function index()
-    {
-        // 1. Tarik semua data log harian beserta relasinya
-        $allTimesheets = Timesheet::with(['transaksi.pelanggan', 'transaksi.alat', 'transaksi.operator'])->get();
+{
+    $allTimesheets = Timesheet::with(['transaksi.pelanggan', 'transaksi.alat', 'transaksi.operator'])->get();
 
-        // 2. Kelompokkan berdasarkan ID Proyek (transaksi_sewa_id)
-        $grouped = $allTimesheets->groupBy('transaksi_sewa_id');
+    $grouped = $allTimesheets->groupBy('transaksi_sewa_id');
 
-        $data = collect();
+    $data = collect();
 
-        foreach ($grouped as $timesheets) {
-            // 3. KUNCI TANGGAL: Ambil log dengan 'tanggal' paling awal (Hari Pertama)
-            $logPertama = $timesheets->sortBy('tanggal')->first();
-            
-            // 4. KUNCI HM: Ambil log dengan 'tanggal' paling akhir (Hari Terakhir)
-            $logTerbaru = $timesheets->sortByDesc('tanggal')->first();
+    foreach ($grouped as $timesheets) {
 
-            // 5. Gabungkan data: Tanggal tetap pakai hari pertama, tapi HM disuntik dari hari terakhir
-            $logPertama->hm_awal = $logTerbaru->hm_awal;
-            $logPertama->hm_akhir = $logTerbaru->hm_akhir;
+        $logTampil = $timesheets->sortByDesc('tanggal')->first();
 
-            // Masukkan ke dalam wadah data untuk ditampilkan ke HTML
-            $data->push($logPertama);
-        }
+        $hmAwalProyek = $timesheets->where('hm_awal', '>', 0)->sortBy('tanggal')->first();
+        $logTampil->total_hm_awal = $hmAwalProyek ? $hmAwalProyek->hm_awal : 0;
 
-        // 6. Urutkan daftar di halaman index agar proyek yang baru mulai berada di atas
-        $data = $data->sortByDesc('tanggal')->values();
-
-        return view('admin.timesheet.index', compact('data'));
+        $hmAkhirProyek = $timesheets->where('hm_akhir', '>', 0)->sortByDesc('tanggal')->first();
+        $logTampil->total_hm_akhir = $hmAkhirProyek ? $hmAkhirProyek->hm_akhir : 0;
+        
+        $data->push($logTampil);
     }
+
+    $data = $data->sortByDesc('tanggal')->values();
+
+    return view('admin.timesheet.index', compact('data'));
+}
 
     /**
      * Menampilkan form tambah Timesheet.
@@ -52,7 +43,6 @@ class TimesheetController extends Controller
         $transaksi = TransaksiSewa::orderBy('tanggal_mulai', 'desc')->get();
         $jenisPekerjaan = [];
 
-        // JIKA tombol diklik dari halaman DETAIL (membawa parameter transaksi_id)
         if ($request->filled('transaksi_id')) {
             $t = TransaksiSewa::find($request->transaksi_id);
             if ($t) {
@@ -80,13 +70,9 @@ class TimesheetController extends Controller
         ]);
 
         $data = $request->all();
-
-        // ==========================================
-        // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
-        // ==========================================
         $data['hm_awal'] = empty($request->hm_awal) ? 0 : $request->hm_awal;
         $data['hm_akhir'] = empty($request->hm_akhir) ? 0 : $request->hm_akhir;
-        // ==========================================
+
 
         // Logika Upload Foto
         if ($request->hasFile('foto')) {
@@ -106,7 +92,7 @@ class TimesheetController extends Controller
     /**
      * Menampilkan form edit Timesheet.
      */
-    public function edit(Request $request, $id) // WAJIB ada Request $request disini
+    public function edit(Request $request, $id)
     {
         $data = Timesheet::findOrFail($id);
         $transaksi = TransaksiSewa::orderBy('tanggal_mulai', 'desc')->get();
@@ -132,7 +118,6 @@ class TimesheetController extends Controller
    
 public function update(Request $request, $id)
     {
-        // PERBAIKAN: Ganti hm_awal & hm_akhir menjadi jam_baket & jam_breker
         $request->validate([
             'transaksi_sewa_id' => 'required',
             'tanggal'           => 'required|date',
@@ -144,9 +129,6 @@ public function update(Request $request, $id)
         $timesheet = Timesheet::findOrFail($id);
         $data = $request->all();
 
-        // ==========================================
-        // TRIK NINJA: JIKA KOSONG, JADIKAN ANGKA 0
-        // ==========================================
         $data['jam_baket'] = empty($request->jam_baket) ? 0 : $request->jam_baket;
         $data['jam_breker'] = empty($request->jam_breker) ? 0 : $request->jam_breker;
         // ==========================================
@@ -177,8 +159,7 @@ public function update(Request $request, $id)
         $data = Timesheet::findOrFail($id);
         $data->delete();
 
-        return redirect()->route('timesheet.index')
-                         ->with('success', 'Data Timesheet berhasil dihapus!');
+        return redirect()->route('timesheet.index')->with('success', 'Data Timesheet berhasil dihapus!');
     }
 
     /**

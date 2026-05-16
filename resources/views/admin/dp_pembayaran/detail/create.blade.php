@@ -81,13 +81,12 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-end mt-4">
-                        {{-- Tombol batal murni seperti timesheet --}}
-                        <button type="button" onclick="history.back()" class="btn btn-secondary me-2">Batal</button>
-                        <button type="submit" class="btn btn-primary text-white">
-                            <i data-lucide="save" class="icon-sm me-1"></i> Simpan Pembayaran
-                        </button>
-                    </div>
+           <div class="d-flex justify-content-end mt-4">
+    <a href="{{ $dp_id ? route('dp.show', $dp_id) : route('dp.index') }}" class="btn btn-secondary me-2">Batal</a>
+    <button type="submit" class="btn btn-primary text-white">
+        <i data-lucide="save" class="icon-sm me-1"></i> Simpan
+    </button>
+</div>
                 </form>
 
             </div>

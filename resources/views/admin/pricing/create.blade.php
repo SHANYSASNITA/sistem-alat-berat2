@@ -4,8 +4,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('pricing.index') }}">Data Pricing Alat</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tambah Pricing</li>
+            <li class="breadcrumb-item"><a href="{{ route('pricing.index') }}">Data Harga Sewa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah Harga Sewa</li>
         </ol>
     </nav>
 

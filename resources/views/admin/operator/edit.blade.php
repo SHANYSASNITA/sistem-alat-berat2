@@ -69,8 +69,7 @@
     <div class="d-flex justify-content-end mt-4">
         <a href="{{ route('operator.index') }}" class="btn btn-secondary me-2">Batal</a>
         <button type="submit" class="btn btn-warning text-dark">
-            <i data-lucide="edit-2" class="icon-sm me-1"></i> Perbarui Data
-        </button>
+            <i data-lucide="edit-2" class="icon-sm me-1"></i> Perbarui</button>
     </div>
 </form>
                 </div>

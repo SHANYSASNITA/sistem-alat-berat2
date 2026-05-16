@@ -59,24 +59,36 @@
     <div class="login-card text-center">
         <h3 class="fw-bold mb-1" style="color: var(--accent-color);">C.V. LISAN</h3>
         <p class="text-white-50 small mb-4 text-uppercase" style="letter-spacing: 3px;">Admin Panel</p>
-        <p class="text-white-50 small mb-4 text-uppercase" style="letter-spacing: 1px;">Halaman ini hanya untuk halaman login untuk admin</p>
+        <p class="text-white-50 small mb-4 text-uppercase" style="letter-spacing: 1px;">Halaman ini hanya untuk login admin</p>
 
         <form action="{{ route('login') }}" method="POST">
             @csrf
+
+            @error('login_error')
+                <div class="p-2 mb-3 rounded" style="background-color: rgba(220, 53, 69, 0.15); border: 1px solid #dc3545; color: #ff6b72; font-size: 14px; text-align: left;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ $message }}
+                </div>
+            @enderror
+
             <div class="mb-3 text-start">
-                <label class="text-white-50 small mb-2">Alamat Email</label>
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus>
+                <label class="text-white-50 small mb-2">Email</label>
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" autofocus>
+                
                 @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="mt-1" style="color: #ff6b72; font-size: 12px;"><i class="bi bi-info-circle"></i> {{ $message }}</div>
                 @enderror
             </div>
 
             <div class="mb-4 text-start">
-                <label class="text-white-50 small mb-2">Kata Sandi</label>
-                <input type="password" name="password" class="form-control" required>
+                <label class="text-white-50 small mb-2">Password</label>
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
+                
+                @error('password')
+                    <div class="mt-1" style="color: #ff6b72; font-size: 12px;"><i class="bi bi-info-circle"></i> {{ $message }}</div>
+                @enderror
             </div>
 
-            <button type="submit" class="btn btn-login w-100 mb-3">MASUK SEKARANG</button>
+            <button type="submit" class="btn btn-login w-100 mb-3">LOGIN</button>
         </form>
     </div>
 
