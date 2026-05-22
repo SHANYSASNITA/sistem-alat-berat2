@@ -46,6 +46,8 @@
                     <form action="{{ route('dp.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
+                        <input type="hidden" name="from_detail" value="1">
                         
                         <input type="hidden" name="transaksi_sewa_id" value="{{ $data->transaksi_sewa_id }}">
 
@@ -67,19 +69,17 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label d-block">Ganti Bukti Transfer <span class="text-muted small">(Opsional)</span></label>
-                                @if($data->bukti_pembayaran)
-                                    <div class="mb-2">
-                                        <a href="{{ asset('storage/' . $data->bukti_pembayaran) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $data->bukti_pembayaran) }}" class="rounded border" style="height: 50px; object-fit: cover;" data-bs-toggle="tooltip" title="Lihat Struk Lama">
-                                        </a>
-                                    </div>
-                                @endif
-                                <input type="file" name="bukti_pembayaran" class="form-control @error('bukti_pembayaran') is-invalid @enderror" accept="image/*">
-                                <div class="form-text text-muted small">Biarkan kosong jika foto struk tidak ingin diganti.</div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label d-block">Ganti Bukti Transfer <span class="text-muted small">(Opsional)</span></label>
+                            @if($data->bukti_pembayaran)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $data->bukti_pembayaran) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $data->bukti_pembayaran) }}" class="rounded border" style="height: 50px; object-fit: cover;" data-bs-toggle="tooltip" title="Lihat Struk Lama">
+                                    </a>
+                                </div>
+                            @endif
+                            <input type="file" name="bukti_pembayaran" class="form-control @error('bukti_pembayaran') is-invalid @enderror" accept="image/*">
+                            <div class="form-text text-muted small">Biarkan kosong jika foto struk tidak ingin diganti.</div>
                         </div>
 
                         <div class="mb-4">
@@ -98,5 +98,4 @@
             </div>
         </div>
     </div>
-
 @endsection

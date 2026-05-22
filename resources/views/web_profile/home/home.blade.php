@@ -2,17 +2,16 @@
 
 @section('title', 'Home')
 
+{{-- Bagian Hero / Banner atas --}}
 @section('home')
     <div class="ftco-blocks-cover-1" id="home">
-        
-        {{-- KITA BUAT VARIABEL PHP AGAR URL-NYA BERSIH DAN TIDAK BENTROK KUTIP --}}
         @php
+            // Set background, kalau di db kosong pake gambar default
             $heroBg = ($profile && $profile->hero_image) 
-                      ? asset('storage/' . $profile->hero_image) 
-                      : asset('assets/profile/images/hero_1.jpg');
+            ? asset('storage/' . $profile->hero_image) 
+            : asset('assets/profile/images/hero_1.jpg');
         @endphp
 
-        {{-- Panggil variabel $heroBg di dalam url() --}}
         <div class="ftco-cover-1 overlay" style="background-image: url('{{ $heroBg }}'); background-size: cover; background-position: center;">
             <div class="container">
                 <div class="row align-items-center">
@@ -23,9 +22,7 @@
                         <p class="text-white mb-5" style="font-size: 1.1rem; opacity: 0.9;">
                             {{ $profile->hero_description ?? 'C.V. LISAN memberikan solusi penyewaan alat berat terpercaya di NTB.' }}
                         </p>
-                        <a href="#tools" class="btn btn-primary rounded-pill px-5 py-3" style="color: black !important; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-                            Cek Ketersediaan Unit
-                        </a>
+                        <a href="#tools" class="btn btn-primary rounded-pill px-5 py-3" style="color: black !important; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Cek Ketersediaan Unit</a>
                     </div>
                 </div>
             </div>
@@ -33,13 +30,13 @@
     </div>
 @endsection
 
+{{-- Bagian About Us --}}
 @section('about')
     <div class="site-section" id="about">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0 order-lg-2">
                     <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
-                        {{-- Gambar About dinamis: Jika ada di DB pakai DB, jika tidak pakai dummy --}}
                         <img src="{{ $profile && $profile->about_image ? asset('storage/' . $profile->about_image) : asset('assets/profile/images/hero_2.jpg') }}" 
                              alt="Tentang C.V. LISAN" class="img-fluid w-100" style="object-fit: cover; min-height: 400px;" />
                     </div>
@@ -63,6 +60,7 @@
     </div>
 @endsection
 
+{{-- Bagian Layanan --}}
 @section('service')
     <div class="site-section bg-light" id="service">
         <div class="container">
@@ -75,22 +73,18 @@
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="p-5 bg-white rounded shadow-sm text-center h-100">
-                        {{-- Icon Layanan Baket --}}
                         <div class="mb-4">
                             <img src="{{ asset('assets/profile/images/icon-baket.png') }}" alt="Icon Baket" style="width: 120px; height: auto;">
                         </div>
-                        
                         <h3 class="font-weight-bold text-black mb-3">{{ $profile->service_title_1 ?? 'Layanan Baket' }}</h3>
                         <p class="text-muted">{{ $profile->service_desc_1 ?? 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' }}</p>
                     </div>
                 </div>
                 <div class="col-md-6 mb-4">
                     <div class="p-5 bg-white rounded shadow-sm text-center h-100">
-                        {{-- Icon Layanan Breker --}}
                         <div class="mb-4">
                             <img src="{{ asset('assets/profile/images/icon-breker.png') }}" alt="Icon Breker" style="width: 120px; height: auto;">
                         </div>
-                        
                         <h3 class="font-weight-bold text-black mb-3">{{ $profile->service_title_2 ?? 'Layanan Breker' }}</h3>
                         <p class="text-muted">{{ $profile->service_desc_2 ?? 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' }}</p>
                     </div>
@@ -99,6 +93,8 @@
         </div>
     </div>
 @endsection
+
+{{-- Bagian Katalog Alat --}}
 @section('tools')
     <div class="site-section bg-light" id="tools">
         <div class="container">
@@ -111,28 +107,27 @@
             </div>
 
             <div class="row">
+                {{-- Looping daftar alat berat dari controller --}}
                 @forelse ($tools as $tool)
                     <div class="col-md-6 col-lg-4 mb-5">
                         <div class="card h-100 border-0 shadow-sm transition-hover" style="border-radius: 15px; overflow: hidden; background: white; position: relative;">
                             
-                            {{-- Gambar Alat --}}
                             <img src="{{ asset('storage/' . $tool->foto) }}" class="card-img-top" style="height: 230px; object-fit: cover;">
                             
                             <div class="card-body p-4">
                                 <h4 class="font-weight-bold text-black mb-1">{{ $tool->merk }}</h4>
                                 <p class="text-muted small mb-3">{{ $tool->kode_unit }} | {{ $tool->jenis }}</p>
                                 
-                                {{-- BAGIAN DINAMIS PRICING & STATUS --}}
                                 <div class="bg-light p-3 rounded mb-4">
                                     <h6 class="fw-bold small text-uppercase mb-3 text-primary border-bottom pb-2">Daftar Harga Sewa:</h6>
                                     
                                     @if($tool->pricing->count() > 0)
                                         @php
-                                            // Ambil 1 baris data pricing terbaru untuk alat ini
+                                            // Ambil harga terbaru
                                             $price = $tool->pricing->first();
                                         @endphp
 
-                                        {{-- CEK APAKAH PUNYA HARGA BAKET --}}
+                                        {{-- Cek harga baket --}}
                                         @if($price->harga_baket)
                                             <div class="mb-3 border-bottom pb-2">
                                                 <div class="d-flex justify-content-between align-items-center mb-1">
@@ -149,7 +144,7 @@
                                             </div>
                                         @endif
 
-                                        {{-- CEK APAKAH PUNYA HARGA BREKER --}}
+                                        {{-- Cek harga breker --}}
                                         @if($price->harga_breker)
                                             <div class="mb-2">
                                                 <div class="d-flex justify-content-between align-items-center mb-1">
@@ -166,7 +161,7 @@
                                             </div>
                                         @endif
                                         
-                                        {{-- JIKA DICENTANG TAPI KOSONG DUA-DUANYA --}}
+                                        {{-- Tampilkan info jika harga kosong --}}
                                         @if(!$price->harga_baket && !$price->harga_breker)
                                             <p class="text-danger small mb-0 font-italic text-center py-2">Hubungi admin untuk detail harga</p>
                                         @endif
@@ -178,7 +173,7 @@
                                     @endif
                                 </div>
                                 
-                                {{-- Tombol WA Otomatis --}}
+                                {{-- Matikan tombol WA kalau alat rusak/maintenance --}}
                                 @php
                                     $isAllMaintenance = $tool->pricing->count() > 0 && $tool->pricing->every(function($p) { return $p->status == 'maintenance'; });
                                 @endphp
@@ -193,7 +188,6 @@
                                        <i data-lucide="message-circle" class="me-2"></i> HUBUNGI KAMI
                                     </a>
                                 @endif
-                                
                             </div>
                         </div>
                     </div>

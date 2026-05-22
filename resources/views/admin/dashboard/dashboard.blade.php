@@ -1,6 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
+{{-- Header Dashboard --}}
 <div class="d-flex justify-content-between align-items-center grid-margin mb-4">
     <div>
         <h4 class="mb-3 mb-md-0 fw-bold">Dashboard Overview</h4>
@@ -8,7 +9,10 @@
     </div>
 </div>
 
+{{-- Baris Card Statistik --}}
 <div class="row">
+    
+    {{-- Card 1: Total Alat Berat --}}
     <div class="col-md-3 grid-margin stretch-card">
         <div class="card border-0 shadow-sm border-start border-primary border-4 hover-lift">
             <div class="card-body">
@@ -29,6 +33,7 @@
         </div>
     </div>
 
+    {{-- Card 2: Total Operator --}}
     <div class="col-md-3 grid-margin stretch-card">
         <div class="card border-0 shadow-sm border-start border-info border-4 hover-lift">
             <div class="card-body">
@@ -49,6 +54,7 @@
         </div>
     </div>
 
+    {{-- Card 3: Proyek Berjalan --}}
     <div class="col-md-3 grid-margin stretch-card">
         <div class="card border-0 shadow-sm border-start border-warning border-4 hover-lift">
             <div class="card-body">
@@ -69,6 +75,7 @@
         </div>
     </div>
 
+    {{-- Card 4: Total Pelanggan --}}
     <div class="col-md-3 grid-margin stretch-card">
         <div class="card border-0 shadow-sm border-start border-success border-4 hover-lift">
             <div class="card-body">
@@ -90,6 +97,7 @@
     </div>
 </div>
 
+{{-- Placeholder untuk Grafik / Log --}}
 <div class="row mt-4">
     <div class="col-md-12">
         <div class="card border-0 shadow-sm">

@@ -16,18 +16,26 @@
             <div class="card-body">
                 <h6 class="card-title mb-4">Input Data Pembayaran Sewa</h6>
 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('dp.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <input type="hidden" name="from_detail" value="1">
-                    {{-- PERBAIKAN: Gunakan transaksi_sewa_id --}}
                     <input type="hidden" name="transaksi_sewa_id" value="{{ request('transaksi_sewa_id') }}">
 
                     <div class="mb-3">
                         <label class="form-label text-primary fw-bold">1. Transaksi Sewa Terpilih</label>
                         <select class="form-select border-primary bg-light" disabled>
                             @foreach ($transaksi as $row)
-                                {{-- PERBAIKAN: Gunakan transaksi_sewa_id --}}
                                 @if(request('transaksi_sewa_id') == $row->id)
                                     <option selected>
                                         {{ $row->pelanggan->nama ?? '-' }} | {{ $row->alat->nama_alat ?? '-' }} | {{ $row->lokasi_proyek ?? '-' }}
@@ -60,11 +68,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Upload Bukti Transfer <span class="text-danger">*</span></label>
-                                <input type="file" name="bukti_pembayaran" class="form-control" accept="image/*" required>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload Bukti Transfer <span class="text-danger">*</span></label>
+                            <input type="file" name="bukti_pembayaran" class="form-control" accept="image/*" required>
                         </div>
 
                         <div class="mb-2">
@@ -73,12 +79,12 @@
                         </div>
                     </div>
 
-           <div class="d-flex justify-content-end mt-4">
-    <a href="{{ $dp_id ? route('dp.show', $dp_id) : route('dp.index') }}" class="btn btn-secondary me-2">Batal</a>
-    <button type="submit" class="btn btn-primary text-white">
-        <i data-lucide="save" class="icon-sm me-1"></i> Simpan
-    </button>
-</div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{{ $dp_id ? route('dp.show', $dp_id) : route('dp.index') }}" class="btn btn-secondary me-2">Batal</a>
+                        <button type="submit" class="btn btn-primary text-white">
+                            <i data-lucide="save" class="icon-sm me-1"></i> Simpan
+                        </button>
+                    </div>
                 </form>
 
             </div>

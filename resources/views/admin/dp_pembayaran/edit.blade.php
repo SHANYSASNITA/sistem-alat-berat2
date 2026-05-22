@@ -15,9 +15,25 @@
                 <div class="card-body">
                     <h6 class="card-title mb-4">Update Data Pembayaran DP</h6>
 
+                    {{-- 1. BLOK PENAMPIL ERROR (Biar Ketahuan Kalau Ada Validasi Gagal) --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Gagal menyimpan perubahan!</strong> Periksa isian form di bawah:
+                            <ul class="mb-0 mt-2">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
                     <form action="{{ route('dp.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
+                        {{-- 2. INPUT PENANDA (Biar Pas Batal/Sukses, Sistem Tahu Harus Balik ke Index) --}}
+                        <input type="hidden" name="from_index" value="1">
 
                         <div class="mb-3">
                             <label class="form-label">Transaksi</label>
@@ -38,15 +54,14 @@
                                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', \Carbon\Carbon::parse($data->tanggal)->format('Y-m-d')) }}" required>
                             </div>
 
-                        <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Status <span class="text-danger">*</span></label>
                                 <select name="status" class="form-select" required>
                                     <option value="lunas" {{ old('status', $data->status) == 'lunas' ? 'selected' : '' }}>Lunas</option>
                                     <option value="belum_lunas" {{ old('status', $data->status) == 'belum_lunas' ? 'selected' : '' }}>Belum Lunas</option>
                                 </select>
                             </div>
-
-                        <div class="d-flex justify-content-end">
+                        </div> <div class="d-flex justify-content-end">
                             <a href="{{ route('dp.index') }}" class="btn btn-secondary me-2">Batal</a>
                             <button type="submit" class="btn btn-primary text-white">
                                 <i data-lucide="refresh-cw" class="icon-sm me-1"></i> Update

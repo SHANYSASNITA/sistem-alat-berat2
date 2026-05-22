@@ -18,10 +18,11 @@ class DpPembayaranController extends Controller
             ->values();
 
         foreach ($data as $row) {
-            $pembayaranTerakhir = DpPembayaran::where('transaksi_sewa_id', $row->transaksi_sewa_id)
-                ->orderBy('created_at', 'desc')
+            // PERBAIKAN: Baca status dari data master/pancingan (asc), bukan cicilan terakhir
+            $pembayaranMaster = DpPembayaran::where('transaksi_sewa_id', $row->transaksi_sewa_id)
+                ->orderBy('created_at', 'asc') 
                 ->first();
-            $row->status_terakhir_proyek = $pembayaranTerakhir->status ?? 'belum_lunas';
+            $row->status_terakhir_proyek = $pembayaranMaster->status ?? 'belum_lunas';
         }
 
         return view('admin.dp_pembayaran.index', compact('data'));
@@ -30,71 +31,76 @@ class DpPembayaranController extends Controller
     public function show($id)
     {
         $dp = DpPembayaran::findOrFail($id);
+        
         $data = DpPembayaran::with(['transaksi.pelanggan', 'transaksi.alat'])
             ->where('transaksi_sewa_id', $dp->transaksi_sewa_id)
+            ->where('jumlah', '>', 0) 
             ->orderBy('tanggal', 'asc')
             ->get();
 
         return view('admin.dp_pembayaran.detail.detail', compact('data', 'dp'));
     }
 
-public function create(Request $request)
-{
-    $transaksi = TransaksiSewa::orderBy('id', 'desc')->get();
+    public function create(Request $request)
+    {
+        $transaksi = TransaksiSewa::orderBy('id', 'desc')->get();
 
-    if ($request->filled('transaksi_sewa_id')) {
+        if ($request->filled('transaksi_sewa_id')) {
+            if ($request->query('source') == 'index') {
+                return view('admin.dp_pembayaran.create', compact('transaksi'));
+            }
 
-        // Dari halaman index → tetap di create folder luar
-        if ($request->query('source') == 'index') {
-            return view('admin.dp_pembayaran.create', compact('transaksi'));
+            $masterDp = DpPembayaran::where('transaksi_sewa_id', $request->transaksi_sewa_id)->first();
+            $dp_id = $masterDp->id ?? null;
+
+            return view('admin.dp_pembayaran.detail.create', compact('transaksi', 'dp_id'));
         }
 
-        // Dari halaman detail → ke detail/create
-        $masterDp = DpPembayaran::where('transaksi_sewa_id', $request->transaksi_sewa_id)->first();
-        $dp_id = $masterDp->id ?? null;
-
-        return view('admin.dp_pembayaran.detail.create', compact('transaksi', 'dp_id'));
+        return view('admin.dp_pembayaran.create', compact('transaksi'));
     }
 
-    return view('admin.dp_pembayaran.create', compact('transaksi'));
-}
+    public function store(Request $request)
+    {
+        if ($request->has('from_detail')) {
+            $validated = $request->validate([
+                'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
+                'tanggal'           => 'required|date',
+                'jumlah'            => 'required|integer|min:1', 
+                'keterangan'        => 'nullable|string',
+                'bukti_pembayaran'  => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+            
+            // Ambil status dari master agar tidak error di database (karena kolom status wajib)
+            $masterDp = DpPembayaran::where('transaksi_sewa_id', $request->transaksi_sewa_id)->first();
+            $validated['status'] = $masterDp->status ?? 'belum_lunas';
+            
+        } else {
+            // Ini adalah proses pancingan dari halaman index
+            $validated = $request->validate([
+                'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
+                'tanggal'           => 'required|date',
+                'status'            => 'required|in:lunas,belum_lunas',
+            ]);
+            $validated['jumlah'] = 0; 
+        }
 
-  public function store(Request $request)
-{
-    if ($request->has('from_detail')) {
-        $validated = $request->validate([
-            'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
-            'tanggal'           => 'required|date',
-            'jumlah'            => 'required|integer|min:0',
-            'keterangan'        => 'nullable|string',
-            'status'            => 'required|in:lunas,belum_lunas',
-            'bukti_pembayaran'  => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-    } else {
-        $validated = $request->validate([
-            'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
-            'tanggal'           => 'required|date',
-            'status'            => 'required|in:lunas,belum_lunas',
-        ]);
-        $validated['jumlah'] = 0; // ← TAMBAH INI
-    }
+        if ($request->hasFile('bukti_pembayaran')) {
+            $path = $request->file('bukti_pembayaran')->store('bukti_pembayarans', 'public');
+            $validated['bukti_pembayaran'] = $path;
+        }
 
-    if ($request->hasFile('bukti_pembayaran')) {
-        $path = $request->file('bukti_pembayaran')->store('bukti_pembayarans', 'public');
-        $validated['bukti_pembayaran'] = $path;
-    }
+        $dp = DpPembayaran::create($validated);
 
-    $dp = DpPembayaran::create($validated);
+        if ($request->has('from_detail')) {
+            $masterDp = DpPembayaran::where('transaksi_sewa_id', $dp->transaksi_sewa_id)->first();
+            return redirect()->route('dp.show', $masterDp->id)
+                ->with('success', 'Pembayaran berhasil ditambahkan!');
+        }
 
-    if ($request->has('from_detail')) {
-        $masterDp = DpPembayaran::where('transaksi_sewa_id', $dp->transaksi_sewa_id)->first();
-        return redirect()->route('dp.show', $masterDp->id)
+        return redirect()->route('dp.index')
             ->with('success', 'Pembayaran berhasil ditambahkan!');
     }
 
-    return redirect()->route('dp.index')
-        ->with('success', 'Pembayaran berhasil ditambahkan!');
-}
     public function edit(Request $request, $id)
     {
         $data = DpPembayaran::findOrFail($id);
@@ -111,14 +117,26 @@ public function create(Request $request)
     {
         $dp = DpPembayaran::findOrFail($id);
 
-        $validated = $request->validate([
-            'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
-            'tanggal'           => 'required|date',
-            'jumlah'            => 'required|integer|min:0',
-            'keterangan'        => 'nullable|string',
-            'status'            => 'required|in:lunas,belum_lunas',
-            'bukti_pembayaran'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        if ($request->has('from_detail')) {
+            $validated = $request->validate([
+                'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
+                'tanggal'           => 'required|date',
+                'jumlah'            => 'required|integer|min:1', 
+                'keterangan'        => 'nullable|string',
+                'bukti_pembayaran'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+        } 
+        else {
+            $validated = $request->validate([
+                'transaksi_sewa_id' => 'required|exists:transaksi_sewas,id',
+                'tanggal'           => 'required|date',
+                'status'            => 'required|in:lunas,belum_lunas',
+            ]);
+            
+            // PERBAIKAN: Jika status master diupdate dari index, update juga status semua cicilan anaknya
+            DpPembayaran::where('transaksi_sewa_id', $dp->transaksi_sewa_id)
+                ->update(['status' => $request->status]);
+        }
 
         if ($request->hasFile('bukti_pembayaran')) {
             if ($dp->bukti_pembayaran && Storage::disk('public')->exists($dp->bukti_pembayaran)) {
@@ -130,17 +148,22 @@ public function create(Request $request)
 
         $dp->update($validated);
 
-        return redirect()->route('dp.show', $dp->id)
-            ->with('success', 'Data pembayaran berhasil diperbarui!');
+        if ($request->has('from_detail')) {
+            $masterDp = DpPembayaran::where('transaksi_sewa_id', $dp->transaksi_sewa_id)->first();
+            return redirect()->route('dp.show', $masterDp->id)
+                ->with('success', 'Data cicilan berhasil diperbarui!');
+        }
+
+        return redirect()->route('dp.index')
+            ->with('success', 'Status pembayaran berhasil diperbarui!');
     }
 
     public function destroy(Request $request, $id)
-{
-    $dp = DpPembayaran::findOrFail($id);
-    $transaksi_sewa_id = $dp->transaksi_sewa_id;
+    {
+        $dp = DpPembayaran::findOrFail($id);
+        $transaksi_sewa_id = $dp->transaksi_sewa_id;
 
         if ($request->has('from_detail')) {
-            // Hapus dari halaman detail → hapus 1 record saja
             if ($dp->bukti_pembayaran && Storage::disk('public')->exists($dp->bukti_pembayaran)) {
                 Storage::disk('public')->delete($dp->bukti_pembayaran);
             }
@@ -157,7 +180,6 @@ public function create(Request $request)
                 ->with('success', 'Data cicilan berhasil dihapus.');
 
         } else {
-            // Hapus dari halaman index → hapus SEMUA riwayat transaksi ini
             $semuaDp = DpPembayaran::where('transaksi_sewa_id', $transaksi_sewa_id)->get();
 
             foreach ($semuaDp as $item) {

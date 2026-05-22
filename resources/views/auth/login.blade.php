@@ -6,6 +6,7 @@
     <title>Login Admin - C.V. LISAN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
         :root {
             --primary-dark: #1a1c23;
@@ -64,12 +65,14 @@
         <form action="{{ route('login') }}" method="POST">
             @csrf
 
+            {{-- Munculin alert merah kalau email/password salah --}}
             @error('login_error')
                 <div class="p-2 mb-3 rounded" style="background-color: rgba(220, 53, 69, 0.15); border: 1px solid #dc3545; color: #ff6b72; font-size: 14px; text-align: left;">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ $message }}
                 </div>
             @enderror
 
+            {{-- Form Input Email --}}
             <div class="mb-3 text-start">
                 <label class="text-white-50 small mb-2">Email</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" autofocus>
@@ -79,6 +82,7 @@
                 @enderror
             </div>
 
+            {{-- Form Input Password --}}
             <div class="mb-4 text-start">
                 <label class="text-white-50 small mb-2">Password</label>
                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
