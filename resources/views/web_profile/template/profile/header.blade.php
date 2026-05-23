@@ -1,9 +1,6 @@
 <header class="site-navbar site-navbar-target" role="banner" style="position: fixed; top: 0; left: 0; right: 0; width: 100%; padding: 15px 0; z-index: 9999; background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
     <div class="container">
-        {{-- Hapus position-relative agar tidak membatasi ruang navbar --}}
         <div class="row align-items-center">
-            
-            {{-- Bagian Kiri (Logo) mengambil ruang 3/12 --}}
             <div class="col-3">
                 <div class="site-logo">
                     <a href="index.html" class="m-0 p-0" style="font-size: 1.5rem; line-height: 1;"><strong>CV</strong>.
@@ -11,8 +8,6 @@
                     </a>
                 </div>
             </div>
-
-            {{-- Bagian Kanan (Menu) mengambil sisa ruang 9/12 --}}
             <div class="col-9">
                 {{-- Tombol Menu untuk HP (Didorong ke kanan) --}}
                 <span class="d-inline-block d-lg-none float-right">
@@ -22,7 +17,7 @@
                 </span>
 
                 <nav class="site-navigation text-right d-none d-lg-block" role="navigation">
-                    {{-- KUNCI UTAMANYA ADA DI SINI: d-flex dan justify-content-end --}}
+                    {{-- Menu BAR --}}
                     <ul class="site-menu main-menu js-clone-nav d-flex justify-content-end align-items-center m-0 p-0 w-100">
                         <li><a href="#home" class="nav-link py-2">Home</a></li>
                         <li><a href="#about" class="nav-link py-2">About</a></li>
