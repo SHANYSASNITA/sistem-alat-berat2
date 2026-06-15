@@ -83,7 +83,6 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label d-block">Jenis Pekerjaan</label>
                                 @php
-                                    // Decode json/array jika formatnya string dari database
                                     $pekerjaanArray = is_string($data->jenis_pekerjaan) ? json_decode($data->jenis_pekerjaan, true) : ($data->jenis_pekerjaan ?? []);
                                 @endphp
                                 <div class="form-check form-check-inline mt-2">

@@ -39,8 +39,7 @@
                             @foreach ($data as $row)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td class="fw-bold text-dark">{{ $row->alat->nama_alat ?? '-' }}</td>
-                                    
+                                    <td class="fw-bold text-dark">{{ $row->alat->kode_unit ?? '-' }} | {{ $row->alat->nama_alat ?? '-' }}</td>
                                     {{-- Kolom Harga Baket --}}
                                     <td>
                                         @if($row->harga_baket)

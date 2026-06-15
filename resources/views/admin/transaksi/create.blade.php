@@ -66,12 +66,12 @@
                             
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Jenis Sewa <span class="text-danger">*</span></label>
-                                <input type="text" name="jenis_sewa" class="form-control" value="{{ old('jenis_sewa') }}" required placeholder="Contoh: Sewa Harian/Bulanan">
+                                <input type="text" name="jenis_sewa" class="form-control" value="{{ old('jenis_sewa') }}" required placeholder="Contoh: Cetak Sawah">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Lokasi Proyek <span class="text-danger">*</span></label>
-                                <input type="text" name="lokasi_proyek" class="form-control" value="{{ old('lokasi_proyek') }}" required placeholder="Contoh: Proyek Tol XYZ">
+                                <input type="text" name="lokasi_proyek" class="form-control" value="{{ old('lokasi_proyek') }}" required placeholder="Contoh: Kota Bima">
                             </div>
 
                             <div class="col-md-4 mb-3">

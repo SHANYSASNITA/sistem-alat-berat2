@@ -33,7 +33,7 @@
                                     <option value="" disabled>-- Pilih Alat Berat --</option>
                                     @foreach ($alat as $row)
                                         <option value="{{ $row->id }}" {{ old('alat_berat_id', $data->alat_berat_id) == $row->id ? 'selected' : '' }}>
-                                            {{ $row->nama_alat }}
+                                            {{ $row->kode_unit }} | {{ $row->nama_alat }}
                                         </option>
                                     @endforeach
                                 </select>

@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin - SIMAT C.V. LISAN</title>
+    <title>Admin - SIMAD C.V LISAN</title>
 
     <script src="{{ asset('assets/js/color-modes.js') }}"></script>
+
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +15,7 @@
     
     <link rel="stylesheet" href="{{ asset('assets/vendors/core/core.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/demo1/style.css') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo-lisan.png') }}" />
     
     @stack('styles')
 </head>
@@ -121,7 +122,7 @@
 
                     <li class="nav-item nav-category">Settings</li>
                     <li class="nav-item">
-                        <a href="{{ route('profile.index') }}" class="nav-link {{ request()->routeIs('timesheet.*') ? 'active' : '' }}">
+                        <a href="{{ route('profile.index') }}" class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                             <i class="link-icon" data-lucide="user-cog"></i>
                             <span class="link-title">Profile</span>
                         </a>
@@ -201,9 +202,32 @@
     <script src="{{ asset('assets/vendors/core/core.js') }}"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script> 
-    <script>
-        lucide.createIcons();
-    </script>
+<script>
+    lucide.createIcons();
+
+    // Tambah class 'active' ke nav-item parent dari nav-link yang active
+    document.querySelectorAll('.sidebar .nav-link.active').forEach(function(link) {
+        const navItem = link.closest('.nav-item');
+        if (navItem) navItem.classList.add('active');
+    });
+
+    // Reset collapse yang tidak seharusnya aktif
+    setTimeout(function () {
+        const collapses = [
+            { id: '#webProfileCollapse', shouldShow: {{ (request()->routeIs('admin.web-profile.*') || request()->routeIs('pricing.*')) ? 'true' : 'false' }} },
+            { id: '#transaksi', shouldShow: {{ (request()->routeIs('transaksi.*') || request()->routeIs('dp.*')) ? 'true' : 'false' }} },
+        ];
+
+        collapses.forEach(function(item) {
+            const el = document.querySelector(item.id);
+            if (el && !item.shouldShow) {
+                el.classList.remove('show');
+                const btn = document.querySelector('[href="' + item.id + '"]');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }, 100);
+</script>
     @stack('scripts')
 </body>
 </html>

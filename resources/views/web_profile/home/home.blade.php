@@ -183,7 +183,7 @@
                                         <i data-lucide="alert-circle" class="me-2"></i> ALAT SEDANG PERBAIKAN
                                     </button>
                                 @else
-                                    <a href="https://wa.me/628123456789?text=Halo%20CV%20LISAN,%20saya%20ingin%20tanya%20sewa%20{{ urlencode($tool->nama_alat) }}" 
+                                    <a href="https://wa.me/6281339758881?text=Halo%20CV%20LISAN,%20saya%20ingin%20tanya%20sewa%20{{ urlencode($tool->nama_alat) }}" 
                                        class="btn btn-warning btn-block fw-bold py-2 shadow-sm text-dark">
                                        <i data-lucide="message-circle" class="me-2"></i> HUBUNGI KAMI
                                     </a>
